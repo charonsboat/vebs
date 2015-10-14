@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+
+# update system package archives
+sudo apt-get update -qq

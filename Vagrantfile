@@ -35,6 +35,10 @@ Vagrant.configure(2) do |config|
     ## - Uncomment the Necessary scripts
     ######
 
+    ## base server configuration
+    ####
+    config.vm.provision :shell, privileged: false, path: "#{scripts_url}/base"
+
     ## php
     ####
     args_php_version = "5.5.17"
