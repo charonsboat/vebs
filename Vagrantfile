@@ -38,5 +38,5 @@ Vagrant.configure(2) do |config|
     ## php
     ####
     args_php_version = "5.5.17"
-    config.vm.provision :shell, path: "#{scripts_url}/php", args: [ args_php_version ]
+    config.vm.provision :shell, privileged: false, path: "#{scripts_url}/php", args: [ args_php_version ]
 end
