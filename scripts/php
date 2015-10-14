@@ -3,6 +3,15 @@
 
 args_php_version=${1}
 
+# make sure dependencies are installed
+sudo apt-get install -qq php5 php5-dev php-pear autoconf automake curl build-essential libxslt1-dev re2c libxml2 libxml2-dev php5-cli bison libbz2-dev libreadline-dev
+sudo apt-get install -qq libfreetype6 libfreetype6-dev libpng12-0 libpng12-dev libjpeg-dev libjpeg8-dev libjpeg8 libgd-dev libgd3 libxpm4 libltdl7 libltdl-dev
+sudo apt-get install -qq libssl-dev openssl
+sudo apt-get install -qq gettext libgettextpo-dev libgettextpo0
+sudo apt-get install -qq libicu-dev
+sudo apt-get install -qq libmhash-dev libmhash2
+sudo apt-get install -qq libmcrypt-dev libmcrypt4
+
 # acquire phpbrew
 curl -L -O https://github.com/phpbrew/phpbrew/raw/master/phpbrew
 chmod +x phpbrew
