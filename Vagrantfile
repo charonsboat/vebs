@@ -68,8 +68,14 @@ Vagrant.configure(2) do |config|
     config.vm.provision :shell, privileged: false, path: "#{scripts_url}/base"
 
 
-    #### php
-
+    ####
+    ## php
+    ##
+    ## - Specify any version of php >= 5.3. I recommend using 5.5 or 5.6
+    ##   since they don't need phpbrew to install
+    ## - If you are comfortable with phpbrew, you can also specify semantic
+    ##   versions (e.g. 5.4.40)
+    ####
     args_php_version = "5.6"
     config.vm.provision :shell, privileged: false, path: "#{scripts_url}/php", args: [ args_php_version ]
 end
