@@ -31,6 +31,8 @@ case ${args_php_version} in
         ;;
     *)
         # install any modern version of php (>= 5.3) with phpbrew
+        # https://github.com/phpbrew/phpbrew
+
         # make sure dependencies for phpbrew are installed
         sudo apt-get install -qq php5 php5-dev php-pear autoconf automake curl build-essential libxslt1-dev re2c libxml2 libxml2-dev php5-cli bison libbz2-dev libreadline-dev > /dev/null
         sudo apt-get install -qq libfreetype6 libfreetype6-dev libpng12-0 libpng12-dev libjpeg-dev libjpeg8-dev libjpeg8  libgd-dev libgd3 libxpm4 libltdl7 libltdl-dev > /dev/null
