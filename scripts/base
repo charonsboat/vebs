@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
 
+# suppress prompts
+export DEBIAN_FRONTEND=noninteractive
+
 # update system package archives
-sudo apt-get update -qq
+sudo apt-get update -qq > /dev/null
