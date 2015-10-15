@@ -1,30 +1,69 @@
 #!/usr/bin/env bash
 
 
+# @param - version of php to install (e.g. 5.6)
 args_php_version=${1}
 
-# make sure dependencies are installed
-sudo apt-get install -qq php5 php5-dev php-pear autoconf automake curl build-essential libxslt1-dev re2c libxml2 libxml2-dev php5-cli bison libbz2-dev libreadline-dev
-sudo apt-get install -qq libfreetype6 libfreetype6-dev libpng12-0 libpng12-dev libjpeg-dev libjpeg8-dev libjpeg8 libgd-dev libgd3 libxpm4 libltdl7 libltdl-dev
-sudo apt-get install -qq libssl-dev openssl
-sudo apt-get install -qq gettext libgettextpo-dev libgettextpo0
-sudo apt-get install -qq libicu-dev
-sudo apt-get install -qq libmhash-dev libmhash2
-sudo apt-get install -qq libmcrypt-dev libmcrypt4
+# suppress prompts
+export DEBIAN_FRONTEND=noninteractive
 
-# acquire phpbrew
-curl -L -O https://github.com/phpbrew/phpbrew/raw/master/phpbrew
-chmod +x phpbrew
-sudo mv phpbrew /usr/bin/phpbrew
+# determine the best installation method based on the desired version of php
+case ${args_php_version} in
+    "5.5")
+        # add ppa for 5.5 since it will be a lot faster than using phpbrew
+        sudo add-apt-repository -y ppa:ondrej/php5 > /dev/null
 
-# init bash script
-phpbrew init
+        # update repository information
+        sudo apt-get update -qq > /dev/null
 
-# update bashrc to use phpbrew
-echo 'source ~/.phpbrew/bashrc' | tee --append "~/.bashrc"
+        # install php
+        sudo apt-get install -qq php5 > /dev/null
+        ;;
+    "5.6")
+        # add ppa for 5.6 since it will be a lot faster than using phpbrew
+        sudo add-apt-repository -y ppa:ondrej/php5-5.6 > /dev/null
 
-# install specified version of php
-phpbrew install ${args_php_version} +default
+        # update repository information
+        sudo apt-get update -qq > /dev/null
 
-# clean up after install
-phpbrew clean php-${args_php_version}
+        # install php
+        sudo apt-get install -qq php5 > /dev/null
+        ;;
+    *)
+        # install any modern version of php (>= 5.3) with phpbrew
+        # make sure dependencies for phpbrew are installed
+        sudo apt-get install -qq php5 php5-dev php-pear autoconf automake curl build-essential libxslt1-dev re2c libxml2 libxml2-dev php5-cli bison libbz2-dev libreadline-dev > /dev/null
+        sudo apt-get install -qq libfreetype6 libfreetype6-dev libpng12-0 libpng12-dev libjpeg-dev libjpeg8-dev libjpeg8  libgd-dev libgd3 libxpm4 libltdl7 libltdl-dev > /dev/null
+        sudo apt-get install -qq libssl-dev openssl > /dev/null
+        sudo apt-get install -qq gettext libgettextpo-dev libgettextpo0 > /dev/null
+        sudo apt-get install -qq libicu-dev > /dev/null
+        sudo apt-get install -qq libmhash-dev libmhash2 > /dev/null
+        sudo apt-get install -qq libmcrypt-dev libmcrypt4 > /dev/null
+
+        # acquire phpbrew
+        curl -L -O https://github.com/phpbrew/phpbrew/raw/master/phpbrew > /dev/null
+        chmod +x phpbrew
+        sudo mv phpbrew /usr/bin/phpbrew
+
+        # init bash script
+        phpbrew init
+
+        # make sure ~/.bashrc exists
+        touch ~/.bashrc
+
+        # update bashrc to use phpbrew
+        echo 'source ~/.phpbrew/bashrc' | tee --append ~/.bashrc
+
+        # since our previously added source will only be loaded in a new shell, source phpbrew now
+        source ~/.phpbrew/bashrc
+
+        # install specified version of php
+        phpbrew install ${args_php_version} +default
+
+        # get full version number for phpbrew in case of shorthand (e.g. 5.4 will grab 5.4.45)
+        php_version=$(phpbrew list | grep "php-${args_php_version}" | head -1)
+
+        # make the specified version of php the default
+        phpbrew switch ${php_version}
+        ;;
+esac
