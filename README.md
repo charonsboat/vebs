@@ -18,3 +18,5 @@ Now, you can uncomment the packages you need and launch Vagrant:
 # launch vagrant
 vagrant up
 ```
+
+That's it! Enjoy!
