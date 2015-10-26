@@ -20,3 +20,13 @@ vagrant up
 ```
 
 That's it! Enjoy!
+
+
+## development
+
+To develop/test scripts locally, you simply need to fork the repo and change the last command when launching Vagrant:
+
+```bash
+# launch vagrant in DEV mode
+export ENV=DEV && vagrant up
+```
