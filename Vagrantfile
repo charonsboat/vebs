@@ -67,7 +67,10 @@ Vagrant.configure(2) do |config|
         ####
         ## base server configuration
         ####
+
+        # call base provisioner
         config.vm.provision :shell, privileged: false, path: "#{scripts_url}/base"
+
 
         ####
         ## php
@@ -77,6 +80,27 @@ Vagrant.configure(2) do |config|
         ## - If you are comfortable with phpbrew, you can also specify semantic
         ##   versions (e.g. 5.4.40)
         ####
+
+        # @param: version of php to install
         args_php_version = "5.6"
-        config.vm.provision :shell, privileged: false, path: "#{scripts_url}/php", args: [ args_php_version ]
+
+        # call php provisioner
+        #config.vm.provision :shell, privileged: false, path: "#{scripts_url}/php", args: [ args_php_version ]
+
+
+        ####
+        ## nginx
+        ####
+
+        # @param: path to the document root
+        args_nginx_document_root = "/vagrant/public"
+
+        # @param: hostname of the application
+        args_nginx_hostname = "_"
+
+        # @param: local ip address of the application
+        args_nginx_ip_address = ""
+
+        # call nginx provisioner
+        #config.vm.provision :shell, privileged: false, path: "#{scripts_url}/nginx", args: [ args_nginx_document_root, args_nginx_hostname, args_nginx_ip_address ]
 end
