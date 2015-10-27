@@ -1,0 +1,75 @@
+#!/usr/bin/env bash
+
+
+# @param: path to the document root
+args_document_root=${1}
+
+# @param: hostname
+args_hostname=${2}
+
+# @param: local ip address for the application
+args_ip_address=${3}
+
+
+# suppress prompts
+export DEBIAN_FRONTEND=noninteractive
+
+# add ppa for nginx
+sudo add-apt-repository -y ppa:nginx/stable > /dev/null
+
+# update repository information
+sudo apt-get update -qq > /dev/null
+
+# install nginx
+sudo apt-get install -qq nginx > /dev/null
+
+# nginx server block configuration
+sudo tee "/etc/nginx/sites-available/${args_hostname}.conf" << EOF
+server {
+        listen 80;
+        listen [::]:80;
+
+        root ${args_document_root};
+        index index.html index.htm index.php;
+
+        server_name ${args_hostname};
+
+        location / {
+                try_files \$uri \$uri/ /index.php?\$query_string;
+        }
+
+        # load the index page on 404
+        error_page 404 /index.php;
+
+        # don't log requests to favicon.ico
+        location = /favicon.ico {
+            log_not_found off;
+            access_log    off;
+        }
+
+        # don't log requests to robots.txt
+        location = /robots.txt {
+            log_not_found off;
+            access_log    off;
+        }
+
+        # pass the PHP scripts to FastCGI server listening on the php-fpm socket
+        location ~ \.php$ {
+                try_files \$uri =404;
+                fastcgi_pass unix:/var/run/php5-fpm.sock;
+                fastcgi_index index.php;
+                include fastcgi_params;
+                fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
+                fastcgi_param HTTPS off;
+        }
+
+        # disable access to .htaccess files
+        location ~ /\.ht {
+            deny all;
+        }
+
+        sendfile off;
+}
+
+# (re)start the nginx process
+sudo service nginx restart
