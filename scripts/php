@@ -24,7 +24,7 @@ case ${args_php_version} in
         sudo apt-get install -qq php5 > /dev/null
 
         # if a string list of packages is passed in, install those packages
-        if [ ! -z ${args_package_list} ]; then
+        if [ ! -z "${args_package_list}" ]; then
             sudo apt-get install -qq ${args_package_list} > /dev/null
         fi
         ;;
@@ -39,7 +39,7 @@ case ${args_php_version} in
         sudo apt-get install -qq php5 > /dev/null
 
         # if a string list of packages is passed in, install those packages
-        if [ ! -z ${args_package_list} ]; then
+        if [ ! -z "${args_package_list}" ]; then
             sudo apt-get install -qq ${args_package_list} > /dev/null
         fi
         ;;
