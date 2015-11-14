@@ -84,8 +84,11 @@ Vagrant.configure(2) do |config|
         # @param: version of php to install
         args_php_version = "5.6"
 
+        # @param: list of php packages to install
+        args_php_package_list = "php5-mcrypt php5-fpm"
+
         # call php provisioner
-        #config.vm.provision :shell, privileged: false, path: "#{scripts_url}/php", args: [ args_php_version ]
+        #config.vm.provision :shell, privileged: false, path: "#{scripts_url}/php", args: [ args_php_version, args_php_package_list ]
 
 
         ####

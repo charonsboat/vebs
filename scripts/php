@@ -4,6 +4,9 @@
 # @param: version of php to install (e.g. 5.6)
 args_php_version=${1}
 
+# @param: list of php packages to install
+args_package_list=${2}
+
 
 # suppress prompts
 export DEBIAN_FRONTEND=noninteractive
@@ -19,6 +22,11 @@ case ${args_php_version} in
 
         # install php
         sudo apt-get install -qq php5 > /dev/null
+
+        # if a string list of packages is passed in, install those packages
+        if [ -z ${args_package_list} ]; then
+            sudo apt-get install -qq ${args_package_list} > /dev/null
+        fi
         ;;
     "5.6")
         # add ppa for 5.6 since it will be a lot faster than using phpbrew
@@ -29,6 +37,11 @@ case ${args_php_version} in
 
         # install php
         sudo apt-get install -qq php5 > /dev/null
+
+        # if a string list of packages is passed in, install those packages
+        if [ -z ${args_package_list} ]; then
+            sudo apt-get install -qq ${args_package_list} > /dev/null
+        fi
         ;;
     *)
         # install any modern version of php (>= 5.3) with phpbrew
