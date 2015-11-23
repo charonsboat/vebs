@@ -23,6 +23,12 @@ case ${args_php_version} in
         # install php
         sudo apt-get install -qq php5 > /dev/null
 
+        # remove apache since the ppa automatically installs it (this script should be unopinionated)
+        sudo apt-get remove -qq apache2 > /dev/null
+
+        # (auto)remove apache sub-packages
+        sudo apt-get autoremove -qq > /dev/null
+
         # if a string list of packages is passed in, install those packages
         if [ ! -z "${args_package_list}" ]; then
             sudo apt-get install -qq ${args_package_list} > /dev/null
@@ -37,6 +43,12 @@ case ${args_php_version} in
 
         # install php
         sudo apt-get install -qq php5 > /dev/null
+
+        # remove apache since the ppa automatically installs it (this script should be unopinionated)
+        sudo apt-get remove -qq apache2 > /dev/null
+
+        # (auto)remove apache sub-packages
+        sudo apt-get autoremove -qq > /dev/null
 
         # if a string list of packages is passed in, install those packages
         if [ ! -z "${args_package_list}" ]; then
