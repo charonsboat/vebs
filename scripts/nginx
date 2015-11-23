@@ -23,6 +23,12 @@ sudo apt-get update -qq > /dev/null
 # install nginx
 sudo apt-get install -qq nginx > /dev/null
 
+# remove symlink for default configuration
+sudo rm /etc/nginx/sites-enabled/default
+
+# remove default configuration
+sudo rm /etc/nginx/sites-available/default
+
 # nginx server block configuration
 sudo tee "/etc/nginx/sites-available/${args_hostname}.conf" << EOF
 server {
@@ -70,6 +76,10 @@ server {
 
         sendfile off;
 }
+EOF
+
+# create symlink to the sites-enabled directory
+sudo ln -s "/etc/nginx/sites-available/${args_hostname}.conf" "/etc/nginx/sites-enabled/${args_hostname}.conf"
 
 # (re)start the nginx process
 sudo service nginx restart
