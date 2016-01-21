@@ -129,6 +129,12 @@ Vagrant.configure(2) do |config|
         # @param: local ip address of the application
         args_nginx_ip_address = ""
 
+        # @param: (optional) user to run nginx as, note: if left blank, user will be left as default
+        args_nginx_user = "vagrant"
+
+        # @param: (optional) group to run nginx as, note: if left blank, group will be left as default
+        args_nginx_group = "vagrant"
+
         # call nginx provisioner
-        #config.vm.provision :shell, privileged: false, path: "#{scripts_url}/nginx", args: [ args_nginx_document_root, args_nginx_hostname, args_nginx_ip_address ]
+        #config.vm.provision :shell, privileged: false, path: "#{scripts_url}/nginx", args: [ args_nginx_document_root, args_nginx_hostname, args_nginx_ip_address, args_nginx_user, args_nginx_group ]
 end
