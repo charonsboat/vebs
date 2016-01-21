@@ -69,7 +69,26 @@ Vagrant.configure(2) do |config|
         ####
 
         # call base provisioner
-        config.vm.provision :shell, privileged: false, path: "#{scripts_url}/base"
+        #config.vm.provision :shell, privileged: false, path: "#{scripts_url}/base"
+
+        ####
+        ## mysql
+        ####
+
+        # @param: database name
+        args_mysql_db_name = "dev"
+
+        # @param: database user to create
+        args_mysql_db_user = "dev"
+
+        # @param: database user's password
+        args_mysql_db_password = "dev"
+
+        # @param: allowed hostname for connection to new database
+        args_mysql_db_host = "localhost"
+
+        # call nginx provisioner
+        #config.vm.provision :shell, privileged: false, path: "#{scripts_url}/mysql", args: [ args_mysql_db_name, args_mysql_db_user, args_mysql_db_password, args_mysql_db_host ]
 
 
         ####
