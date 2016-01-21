@@ -103,7 +103,7 @@ Vagrant.configure(2) do |config|
         # @param: version of php to install
         args_php_version = "5.6"
 
-        # @param: list of php packages to install
+        # @param: list of php packages to install, note: if using PhpBrew, make sure you use the available variants. E.g. "+default +fpm +gd". For more info, check the cookbook: https://github.com/phpbrew/phpbrew/wiki/Cookbook
         args_php_package_list = "php5-mcrypt php5-fpm"
 
         # @param: (optional) user to run php-fpm as, note: if left blank, user will be left as default
