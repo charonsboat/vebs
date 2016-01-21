@@ -10,6 +10,9 @@ args_package_list=${2}
 # @param: (optional) user to run php-fpm as, note: if left blank, user will be left as default
 args_user=${3}
 
+# @param: (optional) group to run php-fpm as, note: if left blank, group will be left as default
+args_group=${4}
+
 
 # suppress prompts
 export DEBIAN_FRONTEND=noninteractive
@@ -40,6 +43,11 @@ case ${args_php_version} in
         # if a user is specified, overwrite the default user
         if [ ! -z "${args_user}" ]; then
             sudo sed -i "s/user = www-data/user = ${args_user}/g" /etc/php5/fpm/pool.d/www.conf > /dev/null
+        fi
+
+        # if a group is specified, overwrite the default group
+        if [ ! -z "${args_group}" ]; then
+            sudo sed -i "s/group = www-data/group = ${args_group}/g" /etc/php5/fpm/pool.d/www.conf > /dev/null
         fi
         ;;
     "5.6")
