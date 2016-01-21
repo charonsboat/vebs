@@ -13,6 +13,9 @@ args_ip_address=${3}
 # @param: (optional) user to run nginx as, note: if left blank, user will be left as default
 args_user=${4}
 
+# @param: (optional) group to run nginx as, note: if left blank, group will be left as default
+args_group=${4}
+
 
 # suppress prompts
 export DEBIAN_FRONTEND=noninteractive
@@ -86,7 +89,15 @@ sudo ln -s "/etc/nginx/sites-available/${args_hostname}.conf" "/etc/nginx/sites-
 
 # if a user is specified, overwrite the default user
 if [ ! -z "${args_user}" ]; then
-    sudo sed -i "s/user www-data;/user ${args_user};/g" /etc/nginx/nginx.conf
+    sudo sed -i "s/user www-data;/user ${args_user};/g" /etc/nginx/nginx.conf > /dev/null
+else
+    # if a user isn't specified, set the variable to the default user to make it easier to change the group
+    args_user="www-data"
+fi
+
+# if a group is specified, overwrite the default user
+if [ ! -z "${args_group}" ]; then
+    sudo sed -i "s/user ${args_user};/user ${args_user} ${args_group};/g" /etc/nginx/nginx.conf > /dev/null
 fi
 
 # (re)start the nginx process
