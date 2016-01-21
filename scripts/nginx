@@ -10,6 +10,9 @@ args_hostname=${2}
 # @param: local ip address for the application
 args_ip_address=${3}
 
+# @param: (optional) user to run nginx as, note: if left blank, user will be left as default
+args_user=${4}
+
 
 # suppress prompts
 export DEBIAN_FRONTEND=noninteractive
@@ -80,6 +83,11 @@ EOF
 
 # create symlink to the sites-enabled directory
 sudo ln -s "/etc/nginx/sites-available/${args_hostname}.conf" "/etc/nginx/sites-enabled/${args_hostname}.conf"
+
+# if a user is specified, overwrite the default user
+if [ ! -z "${args_user}" ]; then
+    sed -i "s/user www-data;/user ${args_user};/g" /etc/nginx/nginx.conf
+fi
 
 # (re)start the nginx process
 sudo service nginx restart
