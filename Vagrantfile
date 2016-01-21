@@ -106,8 +106,14 @@ Vagrant.configure(2) do |config|
         # @param: list of php packages to install
         args_php_package_list = "php5-mcrypt php5-fpm"
 
+        # @param: (optional) user to run php-fpm as, note: if left blank, user will be left as default
+        args_php_user = "vagrant"
+
+        # @param: (optional) group to run php-fpm as, note: if left blank, group will be left as default
+        args_php_group = "vagrant"
+
         # call php provisioner
-        #config.vm.provision :shell, privileged: false, path: "#{scripts_url}/php", args: [ args_php_version, args_php_package_list ]
+        #config.vm.provision :shell, privileged: false, path: "#{scripts_url}/php", args: [ args_php_version, args_php_package_list, args_php_user, args_php_group ]
 
 
         ####
