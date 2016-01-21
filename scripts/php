@@ -112,7 +112,7 @@ case ${args_php_version} in
         source ~/.phpbrew/bashrc
 
         # install specified version of php
-        phpbrew install ${args_php_version} +default
+        phpbrew install ${args_php_version} ${args_package_list} > /dev/null
 
         # get full version number for phpbrew in case of shorthand (e.g. 5.4 will grab 5.4.45)
         php_version=$(phpbrew list | grep "php-${args_php_version}" | head -1)
