@@ -119,5 +119,15 @@ case ${args_php_version} in
 
         # make the specified version of php the default
         phpbrew switch ${php_version}
+
+        # if a user is specified, overwrite the default user
+        if [ ! -z "${args_user}" ]; then
+            sudo sed -i "s/user = www-data/user = ${args_user}/g" ${HOME}/.phpbrew/php/php-${php_version}/etc/php-fpm.conf > /dev/null
+        fi
+
+        # if a group is specified, overwrite the default group
+        if [ ! -z "${args_group}" ]; then
+            sudo sed -i "s/group = www-data/group = ${args_group}/g" ${HOME}/.phpbrew/php/php-${php_version}/etc/php-fpm.conf > /dev/null
+        fi
         ;;
 esac
