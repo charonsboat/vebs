@@ -43,11 +43,17 @@ case ${args_php_version} in
         # if a user is specified, overwrite the default user
         if [ ! -z "${args_user}" ]; then
             sudo sed -i "s/user = www-data/user = ${args_user}/g" /etc/php5/fpm/pool.d/www.conf > /dev/null
+
+            # service needs to be restarted after changing configuration
+            sudo service php5-fpm restart
         fi
 
         # if a group is specified, overwrite the default group
         if [ ! -z "${args_group}" ]; then
             sudo sed -i "s/group = www-data/group = ${args_group}/g" /etc/php5/fpm/pool.d/www.conf > /dev/null
+
+            # service needs to be restarted after changing configuration
+            sudo service php5-fpm restart
         fi
         ;;
     "5.6")
@@ -74,11 +80,17 @@ case ${args_php_version} in
         # if a user is specified, overwrite the default user
         if [ ! -z "${args_user}" ]; then
             sudo sed -i "s/user = www-data/user = ${args_user}/g" /etc/php5/fpm/pool.d/www.conf > /dev/null
+
+            # service needs to be restarted after changing configuration
+            sudo service php5-fpm restart
         fi
 
         # if a group is specified, overwrite the default group
         if [ ! -z "${args_group}" ]; then
             sudo sed -i "s/group = www-data/group = ${args_group}/g" /etc/php5/fpm/pool.d/www.conf > /dev/null
+
+            # service needs to be restarted after changing configuration
+            sudo service php5-fpm restart
         fi
         ;;
     *)
@@ -123,11 +135,17 @@ case ${args_php_version} in
         # if a user is specified, overwrite the default user
         if [ ! -z "${args_user}" ]; then
             sudo sed -i "s/user = www-data/user = ${args_user}/g" ${HOME}/.phpbrew/php/php-${php_version}/etc/php-fpm.conf > /dev/null
+
+            # service needs to be restarted after changing configuration
+            sudo service php5-fpm restart
         fi
 
         # if a group is specified, overwrite the default group
         if [ ! -z "${args_group}" ]; then
             sudo sed -i "s/group = www-data/group = ${args_group}/g" ${HOME}/.phpbrew/php/php-${php_version}/etc/php-fpm.conf > /dev/null
+
+            # service needs to be restarted after changing configuration
+            sudo service php5-fpm restart
         fi
         ;;
 esac
