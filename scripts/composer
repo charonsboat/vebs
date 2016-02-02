@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+
+# @param: (optional) location to run `composer install`
+args_install_dir=${1}
+
+
+# suppress prompts
+export DEBIAN_FRONTEND=noninteractive
+
+# download Composer
+curl -sS https://getcomposer.org/installer | php
+
+# move Composer into a suitable PATH directory
+sudo mv composer.phar /usr/local/bin/composer
+
+# if requested, run composer install in the specified directory
+if [ ! -z "${args_install_dir}" ]; then
+    cd ${args_install_dir} && composer install
+fi
