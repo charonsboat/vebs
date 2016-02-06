@@ -87,7 +87,7 @@ Vagrant.configure(2) do |config|
         # @param: allowed hostname for connection to new database
         args_mysql_db_host = "localhost"
 
-        # call nginx provisioner
+        # call mysql provisioner
         #config.vm.provision :shell, privileged: false, path: "#{scripts_url}/mysql", args: [ args_mysql_db_name, args_mysql_db_user, args_mysql_db_password, args_mysql_db_host ]
 
 
@@ -146,6 +146,6 @@ Vagrant.configure(2) do |config|
         # @param: (optional) location to run `composer install`
         args_composer_install_dir = ""
 
-        # call nginx provisioner
+        # call composer provisioner
         #config.vm.provision :shell, privileged: false, path: "#{scripts_url}/composer", args: [ args_composer_install_dir ]
 end
