@@ -1,0 +1,104 @@
+#!/usr/bin/env bash
+
+
+# @param: path to the document root
+args_document_root=${1}
+
+# @param: hostname
+args_hostname=${2}
+
+# @param: local ip address for the application
+args_ip_address=${3}
+
+# @param: (optional) user to run nginx as, note: if left blank, user will be left as default
+args_user=${4}
+
+# @param: (optional) group to run nginx as, note: if left blank, group will be left as default
+args_group=${4}
+
+
+# suppress prompts
+export DEBIAN_FRONTEND=noninteractive
+
+# add ppa for nginx
+sudo add-apt-repository -y ppa:nginx/stable > /dev/null
+
+# update repository information
+sudo apt-get update -qq > /dev/null
+
+# install nginx
+sudo apt-get install -qq nginx > /dev/null
+
+# remove symlink for default configuration
+sudo rm /etc/nginx/sites-enabled/default
+
+# remove default configuration
+sudo rm /etc/nginx/sites-available/default
+
+# nginx server block configuration
+sudo tee "/etc/nginx/sites-available/${args_hostname}.conf" << EOF
+server {
+        listen 80;
+        listen [::]:80;
+
+        root ${args_document_root};
+        index index.html index.htm index.php;
+
+        server_name ${args_hostname};
+
+        location / {
+                try_files \$uri \$uri/ /index.php?\$query_string;
+        }
+
+        # load the index page on 404
+        error_page 404 /index.php;
+
+        # don't log requests to favicon.ico
+        location = /favicon.ico {
+            log_not_found off;
+            access_log    off;
+        }
+
+        # don't log requests to robots.txt
+        location = /robots.txt {
+            log_not_found off;
+            access_log    off;
+        }
+
+        # pass the PHP scripts to FastCGI server listening on the php-fpm socket
+        location ~ \.php$ {
+                try_files \$uri =404;
+                fastcgi_pass unix:/var/run/php5-fpm.sock;
+                fastcgi_index index.php;
+                include fastcgi_params;
+                fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
+                fastcgi_param HTTPS off;
+        }
+
+        # disable access to .htaccess files
+        location ~ /\.ht {
+            deny all;
+        }
+
+        sendfile off;
+}
+EOF
+
+# create symlink to the sites-enabled directory
+sudo ln -s "/etc/nginx/sites-available/${args_hostname}.conf" "/etc/nginx/sites-enabled/${args_hostname}.conf"
+
+# if a user is specified, overwrite the default user
+if [ ! -z "${args_user}" ]; then
+    sudo sed -i "s/user www-data;/user ${args_user};/g" /etc/nginx/nginx.conf > /dev/null
+else
+    # if a user isn't specified, set the variable to the default user to make it easier to change the group
+    args_user="www-data"
+fi
+
+# if a group is specified, overwrite the default user
+if [ ! -z "${args_group}" ]; then
+    sudo sed -i "s/user ${args_user};/user ${args_user} ${args_group};/g" /etc/nginx/nginx.conf > /dev/null
+fi
+
+# (re)start the nginx process
+sudo service nginx restart

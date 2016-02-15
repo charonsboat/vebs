@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+
+# suppress prompts
+export DEBIAN_FRONTEND=noninteractive
+
+# update system package archives
+sudo apt-get update -qq > /dev/null
+
+# install useful packages for development
+sudo apt-get install -qq git > /dev/null
