@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
 
-# @param: version of php to install (e.g. 5.6)
-args_php_version=${1}
+# @param: version of ruby to install (e.g. 2.3)
+args_ruby_versionn=${1}
 
-# @param: list of php packages to install
-args_package_list=${2}
+# @param: list of ruby packages to install
+args_ruby_package_list=${2}
 
 # @param: (optional) user to run php-fpm as, note: if left blank, user will be left as default
 args_user=${3}
@@ -18,22 +18,21 @@ args_group=${4}
 export DEBIAN_FRONTEND=noninteractive
 
 # determine the best installation method based on the desired version of php
-case ${args_php_version} in
-    "5.5")
-        # add ppa for 5.5 since it will be a lot faster than using phpbrew
-        sudo add-apt-repository -y ppa:ondrej/php5 > /dev/null
+case ${args_ruby_version} in
+    "2.3")
+        
+        # prepare for installation
+        sudo apt-get install build-essential
 
-        # update repository information
-        sudo apt-get update -qq > /dev/null
-
-        # install php
-        sudo apt-get install -qq php5 > /dev/null
-
-        # remove apache since the ppa automatically installs it (this script should be unopinionated)
-        sudo apt-get remove -qq apache2 > /dev/null
-
-        # (auto)remove apache sub-packages
-        sudo apt-get autoremove -qq > /dev/null
+        wget -O ruby-install-0.6.0.tar.gz https://github.com/postmodern/ruby-install/archive/v0.6.0.tar.gz
+        tar -xzvf ruby-install-0.6.0.tar.gz
+        cd ruby-install-0.6.0/
+        sudo make install
+        ruby-install --latest ruby 2.3.0
+        wget -O chruby-0.3.9.tar.gz https://github.com/postmodern/chruby/archive/v0.3.9.tar.gz
+        tar -xzvf chruby-0.3.9.tar.gz
+        cd chruby-0.3.9/
+        sudo make install
 
         # if a string list of packages is passed in, install those packages
         if [ ! -z "${args_package_list}" ]; then
