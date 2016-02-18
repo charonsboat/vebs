@@ -156,7 +156,7 @@ Vagrant.configure(2) do |config|
         args_ruby_group = ""
 
         # call ruby provisioner
-        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/ruby", args: [ args_ruby_version, args_ruby_user, args_ruby_group ]
+        config.vm.provision :shell, privileged: false, path: "#{scripts_url}/ruby", args: [ args_ruby_version, args_ruby_user, args_ruby_group ]
 
 
 
