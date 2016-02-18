@@ -10,7 +10,7 @@
 
 # if you want to maintain your own version of this project, feel free to
 # fork it and change the following to reflect your own copy
-gh_user   = "nanderson83"
+gh_user   = "drmyersii"
 gh_repo   = "vagrant-env-basher"
 gh_branch = "master" # if you want to ensure consistency, use a specific tag (e.g. v0.1.0)
 gh_url    = "https://raw.githubusercontent.com/#{gh_user}/#{gh_repo}/#{gh_branch}"
@@ -156,7 +156,7 @@ Vagrant.configure(2) do |config|
         args_ruby_group = ""
 
         # call ruby provisioner
-        config.vm.provision :shell, privileged: false, path: "#{scripts_url}/ruby", args: [ args_ruby_version, args_ruby_user, args_ruby_group ]
+        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/ruby", args: [ args_ruby_version, args_ruby_user, args_ruby_group ]
 
 
 
