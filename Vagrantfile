@@ -180,7 +180,7 @@ Vagrant.configure(2) do |config|
         args_group = ""
 
         # call rails provisioner
-        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/rails", args: [ args_rails_version, args_package_list, args_rails_user, args_rails_group ]
+        config.vm.provision :shell, privileged: false, path: "#{scripts_url}/rails", args: [ args_rails_version, args_package_list, args_user, args_group ]
 
         ####
         ## composer

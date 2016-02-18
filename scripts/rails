@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+
+# @param: version of rails to install (e.g. 4.2.5)
+args_rails_version=${1}
+
+# @param: list of rails packages to install
+args_package_list=${2}
+
+# @param: (optional) user to run rails as, note: if left blank, user will be left as default
+args_user=${3}
+
+# @param: (optional) group to run rails as, note: if left blank, group will be left as default
+args_group=${4}
+
+# suppress prompts
+export DEBIAN_FRONTEND=noninteractive
+
+# determine the best installation method based on the desired version of ruby
+case ${args_rails_version} in
+    "4.2.5")
+    
+    # run the ruby provisioning script to prepare for a rails install
+    config.vm.provision :shell, privileged: false, path: "#{scripts_url}/ruby", args: [ args_ruby_version, args_ruby_user, args_ruby_group ]
+
+    # install javascript runtime environment for rails
+    sudo apt-get install nodejs -qq > /dev/null
+
+    # install rails
+    gem install rails -y > /dev/null
+
+esac
