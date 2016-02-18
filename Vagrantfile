@@ -142,7 +142,9 @@ Vagrant.configure(2) do |config|
         ####
         ## ruby
         ## 
+        ## - This script installs only ruby, to prepare the environment for a rails install
         ## 
+        ## - Set the ruby version here but do not uncomment the script for a rails install, it will be called from the rails script
         ##
         ####
 
@@ -157,7 +159,28 @@ Vagrant.configure(2) do |config|
 
         # call ruby provisioner
         # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/ruby", args: [ args_ruby_version, args_ruby_user, args_ruby_group ]
+        
+        ####
+        ## rails
+        ## 
+        ## - Set the desired ruby version above, but do not uncomment the ruby provisioning script, it will be called from the rails script
+        ##
+        ####
 
+        # @param: version of rails to install (e.g. 4.2.5)
+        args_rails_version = "4.2.5"
+
+        # @param: list of rails packages to install
+        args_package_list = ""
+
+        # @param: (optional) user to run rails as, note: if left blank, user will be left as default
+        args_user = ""
+
+        # @param: (optional) group to run rails as, note: if left blank, group will be left as default
+        args_group = ""
+
+        # call rails provisioner
+        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/rails", args: [ args_rails_version, args_package_list, args_rails_user, args_rails_group ]
 
         ####
         ## composer
