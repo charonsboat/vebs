@@ -1,9 +1,3 @@
-sudo apt-get -qq install software-properties-common > /dev/null
-sudo apt-add-repository -y ppa:brightbox/ruby-ng > /dev/null
-sudo apt-get -qq update > /dev/null
-sudo apt-get -qq install ruby2.3 > /dev/null
-sudo apt-get -qq install ruby2.3-dev > /dev/null
-
 #!/usr/bin/env bash
 
 
