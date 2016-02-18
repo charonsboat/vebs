@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+
+# @param: version of ruby to install (e.g. 2.3)
+args_ruby_version=${1}
+
+# @param: (optional) user to run ruby as, note: if left blank, user will be left as default
+args_user=${2}
+
+# @param: (optional) group to run ruby as, note: if left blank, group will be left as default
+args_group=${3}
+
+
+# suppress prompts
+export DEBIAN_FRONTEND=noninteractive
+
+# determine the best installation method based on the desired version of ruby
+case ${args_ruby_version} in
+    "2.3")
+
+    # install dependencies necessary for ruby installation
+    sudo apt-get -qq install software-properties-common > /dev/null
+
+    # add ppa for ruby 2.3
+    sudo apt-add-repository -y ppa:brightbox/ruby-ng > /dev/null
+
+    # update repository information
+    sudo apt-get -qq update > /dev/null
+
+    # install ruby
+    sudo apt-get -qq install ruby2.3 > /dev/null
+
+    # install dev packages to allow building native extensions
+    sudo apt-get -qq install ruby2.3-dev > /dev/null
+
+    # install bundler
+    sudo gem2.3 install bundler > /dev/null
+
+esac
