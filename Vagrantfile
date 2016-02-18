@@ -143,7 +143,7 @@ Vagrant.configure(2) do |config|
         ## ruby
         ## 
         ## 
-        ##jo
+        ##
         ####
 
         # @param: version of ruby to install
