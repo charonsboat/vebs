@@ -1,32 +1,45 @@
+sudo apt-get -qq install software-properties-common > /dev/null
+sudo apt-add-repository -y ppa:brightbox/ruby-ng > /dev/null
+sudo apt-get -qq update > /dev/null
+sudo apt-get -qq install ruby2.3 > /dev/null
+sudo apt-get -qq install ruby2.3-dev > /dev/null
+
 #!/usr/bin/env bash
 
 
 # @param: version of ruby to install (e.g. 2.3)
-args_ruby_versionn=${1}
+args_ruby_version=${1}
 
-# @param: list of ruby packages to install
-args_ruby_package_list=${2}
+# @param: (optional) user to run ruby as, note: if left blank, user will be left as default
+args_user=${2}
 
-# @param: (optional) user to run php-fpm as, note: if left blank, user will be left as default
-args_ruby_user=${3}
-
-# @param: (optional) group to run php-fpm as, note: if left blank, group will be left as default
-args_ruby_group=${4}
+# @param: (optional) group to run ruby as, note: if left blank, group will be left as default
+args_group=${3}
 
 
 # suppress prompts
 export DEBIAN_FRONTEND=noninteractive
 
-# determine the best installation method based on the desired version of php
+# determine the best installation method based on the desired version of ruby
 case ${args_ruby_version} in
     "2.3")
-        
-        sudo apt-get -qq install software-properties-common
-        sudo apt-add-repository -y ppa:brightbox/ruby-ng
-        sudo apt-get -qq update
-        sudo apt-get -qq install ruby2.3
-        sudo apt-get -qq install ruby2.3-dev
+
+    # install dependencies necessary for ruby installation
+    sudo apt-get -qq install software-properties-common > /dev/null
+
+    # add ppa for ruby 2.3
+    sudo apt-add-repository -y ppa:brightbox/ruby-ng > /dev/null
+
+    # update repository information
+    sudo apt-get -qq update > /dev/null
+
+    # install ruby
+    sudo apt-get -qq install ruby2.3 > /dev/null
+
+    # install dev packages to allow building native extensions
+    sudo apt-get -qq install ruby2.3-dev > /dev/null
+
+    # install bundler
+    gem2.3 install bundler
 
 esac
-
-

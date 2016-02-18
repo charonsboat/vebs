@@ -69,7 +69,7 @@ Vagrant.configure(2) do |config|
         ####
 
         # call base provisioner
-        config.vm.provision :shell, privileged: false, path: "#{scripts_url}/base"
+        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/base"
 
         ####
         ## mysql
@@ -149,9 +149,6 @@ Vagrant.configure(2) do |config|
         # @param: version of ruby to install
         args_ruby_version = "2.3"
 
-        # @param: list of ruby packages
-        args_ruby_package_list = ""
-
         # @param: (optional) user to run ruby as, note: if left blank, user will be left as default
         args_ruby_user = ""
 
@@ -159,7 +156,7 @@ Vagrant.configure(2) do |config|
         args_ruby_group = ""
 
         # call ruby provisioner
-        config.vm.provision :shell, privileged: false, path: "#{scripts_url}/ruby", args: [ args_ruby_version, args_ruby_package_list, args_ruby_user, args_ruby_group ]
+        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/ruby", args: [ args_ruby_version, args_ruby_user, args_ruby_group ]
 
 
 
