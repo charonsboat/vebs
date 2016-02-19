@@ -68,7 +68,7 @@ Vagrant.configure(2) do |config|
         ####
 
         # call base provisioner
-        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/base"
+        config.vm.provision :shell, privileged: false, path: "#{scripts_url}/base"
 
         ####
         ## mysql
