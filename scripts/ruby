@@ -4,12 +4,6 @@
 # @param: version of ruby to install (e.g. 2.3)
 args_ruby_version=${1}
 
-# @param: (optional) user to run ruby as, note: if left blank, user will be left as default
-args_user=${2}
-
-# @param: (optional) group to run ruby as, note: if left blank, group will be left as default
-args_group=${3}
-
 
 # suppress prompts
 export DEBIAN_FRONTEND=noninteractive
@@ -36,4 +30,5 @@ case ${args_ruby_version} in
     # install bundler
     # sudo gem2.3 install bundler > /dev/null
 
+    ;;
 esac
