@@ -59,7 +59,6 @@ Vagrant.configure(2) do |config|
     ##
     ## Provisioning Configuration
     ##
-    ## - Comment the Unnecessary scripts
     ## - Uncomment the Necessary scripts
     ##
     ######
@@ -88,7 +87,7 @@ Vagrant.configure(2) do |config|
         args_mysql_db_host = "localhost"
 
         # call mysql provisioner
-        #config.vm.provision :shell, privileged: false, path: "#{scripts_url}/mysql", args: [ args_mysql_db_name, args_mysql_db_user, args_mysql_db_password, args_mysql_db_host ]
+        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/mysql", args: [ args_mysql_db_name, args_mysql_db_user, args_mysql_db_password, args_mysql_db_host ]
 
 
         ####
@@ -113,7 +112,7 @@ Vagrant.configure(2) do |config|
         args_php_group = "vagrant"
 
         # call php provisioner
-        #config.vm.provision :shell, privileged: false, path: "#{scripts_url}/php", args: [ args_php_version, args_php_package_list, args_php_user, args_php_group ]
+        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/php", args: [ args_php_version, args_php_package_list, args_php_user, args_php_group ]
 
 
         ####
@@ -136,24 +135,15 @@ Vagrant.configure(2) do |config|
         args_nginx_group = "vagrant"
 
         # call nginx provisioner
-        #config.vm.provision :shell, privileged: false, path: "#{scripts_url}/nginx", args: [ args_nginx_document_root, args_nginx_hostname, args_nginx_ip_address, args_nginx_user, args_nginx_group ]
+        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/nginx", args: [ args_nginx_document_root, args_nginx_hostname, args_nginx_ip_address, args_nginx_user, args_nginx_group ]
 
 
         ####
         ## ruby
-        ## 
-        ## 
-        ##
         ####
 
         # @param: version of ruby to install
         args_ruby_version = "2.3"
-
-        # @param: (optional) user to run ruby as, note: if left blank, user will be left as default
-        args_ruby_user = ""
-
-        # @param: (optional) group to run ruby as, note: if left blank, group will be left as default
-        args_ruby_group = ""
 
         # call ruby provisioner
         # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/ruby", args: [ args_ruby_version, args_ruby_user, args_ruby_group ]
@@ -167,5 +157,5 @@ Vagrant.configure(2) do |config|
         args_composer_install_dir = ""
 
         # call composer provisioner
-        #config.vm.provision :shell, privileged: false, path: "#{scripts_url}/composer", args: [ args_composer_install_dir ]
+        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/composer", args: [ args_composer_install_dir ]
 end
