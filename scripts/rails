@@ -1,32 +1,47 @@
 #!/usr/bin/env bash
 
 
+# @param: version of ruby to install (e.g. 2.3)
+args_ruby_version=${1}
+
 # @param: version of rails to install (e.g. 4.2.5)
-args_rails_version=${1}
+args_rails_version=${2}
 
 # @param: list of rails packages to install
-args_package_list=${2}
+args_package_list=${3}
 
 # @param: (optional) user to run rails as, note: if left blank, user will be left as default
-args_user=${3}
+args_user=${4}
 
 # @param: (optional) group to run rails as, note: if left blank, group will be left as default
-args_group=${4}
+args_group=${5}
 
 # suppress prompts
 export DEBIAN_FRONTEND=noninteractive
 
-# determine the best installation method based on the desired version of ruby
-case ${args_rails_version} in
-    "4.2.5")
-    
-    # run the ruby provisioning script to prepare for a rails install
-    config.vm.provision :shell, privileged: false, path: "#{scripts_url}/ruby", args: [ args_ruby_version, args_ruby_user, args_ruby_group ]
+# install dependencies
+sudo apt-get install -qq git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties libffi-dev > /dev/null
 
-    # install javascript runtime environment for rails
-    sudo apt-get install nodejs -qq > /dev/null
+# clone rbenv, ruby version manager
+git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(rbenv init -)"'               >> ~/.bashrc
+source ~/.bashrc
 
-    # install rails
-    gem install rails -y > /dev/null
 
-esac
+git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+sudo -H -u vagrant bash -i -c 'rbenv install' '#{args_ruby_version}' > /dev/null
+sudo -H -u vagrant bash -i -c 'rbenv rehash' > /dev/null
+sudo -H -u vagrant bash -i -c 'rbenv global' '#{args_ruby_version}' > /dev/null
+sudo -H -u vagrant bash -i -c 'gem install bundler --no-ri --no-rdoc' > /dev/null
+sudo -H -u vagrant bash -i -c 'gem install rails' > /dev/null
+sudo -H -u vagrant bash -i -c 'rbenv rehash' > /dev/null
+
+# install NodeJS, a Javascript runtime for Rails
+
+sudo add-apt-repository ppa:chris-lea/node.js -y >  /dev/null
+sudo apt-get -qq update > /dev/null
+sudo apt-get -qq install nodejs > /dev/null
+
+cd /vagrant
+

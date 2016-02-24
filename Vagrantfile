@@ -10,9 +10,9 @@
 
 # if you want to maintain your own version of this project, feel free to
 # fork it and change the following to reflect your own copy
-gh_user   = "drmyersii"
+gh_user   = "nanderson83"
 gh_repo   = "vagrant-env-basher"
-gh_branch = "master" # if you want to ensure consistency, use a specific tag (e.g. v0.1.0)
+gh_branch = "script/rails" # if you want to ensure consistency, use a specific tag (e.g. v0.1.0)
 gh_url    = "https://raw.githubusercontent.com/#{gh_user}/#{gh_repo}/#{gh_branch}"
 
 # path to provisioning scripts
@@ -69,7 +69,7 @@ Vagrant.configure(2) do |config|
         ####
 
         # call base provisioner
-        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/base"
+        config.vm.provision :shell, privileged: false, path: "#{scripts_url}/base"
 
         ####
         ## mysql
@@ -113,7 +113,7 @@ Vagrant.configure(2) do |config|
         args_php_group = "vagrant"
 
         # call php provisioner
-        #config.vm.provision :shell, privileged: false, path: "#{scripts_url}/php", args: [ args_php_version, args_php_package_list, args_php_user, args_php_group ]
+        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/php", args: [ args_php_version, args_php_package_list, args_php_user, args_php_group ]
 
 
         ####
@@ -163,9 +163,15 @@ Vagrant.configure(2) do |config|
         ####
         ## rails
         ## 
-        ## - Set the desired ruby version above, but do not uncomment the ruby provisioning script, it will be called from the rails script
+        ## - The installation of ruby requires a reboot, which in turn requires a vagrant plugin
+        ## - BEFORE running vagrant up, run 
+        ##       $ vagrant plugin install vagrant-reload
+        ##
         ##
         ####
+
+        # @param: version of ruby to install (e.g. 2.3)
+        args_ruby_version = "2.3"
 
         # @param: version of rails to install (e.g. 4.2.5)
         args_rails_version = "4.2.5"
@@ -174,13 +180,16 @@ Vagrant.configure(2) do |config|
         args_package_list = ""
 
         # @param: (optional) user to run rails as, note: if left blank, user will be left as default
-        args_user = ""
+        args_user = "vagrant"
 
         # @param: (optional) group to run rails as, note: if left blank, group will be left as default
-        args_group = ""
+        args_group = "vagrant"
 
-        # call rails provisioner
-        config.vm.provision :shell, privileged: false, path: "#{scripts_url}/rails", args: [ args_rails_version, args_package_list, args_user, args_group ]
+        # call rails provisioner - ruby installation requires a reboot, so uncomment all three of these lines
+        config.vm.provision :shell, privileged: false, path: "#{scripts_url}/rails", args: [ args_rails_version, args_ruby_version, args_package_list, args_user, args_group ]
+        # config.vm.provision :reload
+        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/rails_after", args: [ args_rails_version, args_ruby_version, args_package_list, args_user, args_group ]
+
 
         ####
         ## composer
