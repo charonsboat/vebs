@@ -10,7 +10,7 @@
 
 # if you want to maintain your own version of this project, feel free to
 # fork it and change the following to reflect your own copy
-gh_user   = "nanderson83"
+gh_user   = "drmyersii"
 gh_repo   = "vagrant-env-basher"
 gh_branch = "script/rails" # if you want to ensure consistency, use a specific tag (e.g. v0.1.0)
 gh_url    = "https://raw.githubusercontent.com/#{gh_user}/#{gh_repo}/#{gh_branch}"
@@ -69,7 +69,7 @@ Vagrant.configure(2) do |config|
         ####
 
         # call base provisioner
-        config.vm.provision :shell, privileged: false, path: "#{scripts_url}/base"
+        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/base"
 
         ####
         ## mysql
@@ -142,9 +142,7 @@ Vagrant.configure(2) do |config|
         ####
         ## ruby
         ## 
-        ## - This script installs only ruby, to prepare the environment for a rails install
-        ## 
-        ## - Set the ruby version here but do not uncomment the script for a rails install, it will be called from the rails script
+        ## - installs only ruby. to install ruby on rails use the rails script below.
         ##
         ####
 
@@ -163,10 +161,9 @@ Vagrant.configure(2) do |config|
         ####
         ## rails
         ## 
-        ## - The installation of ruby requires a reboot, which in turn requires a vagrant plugin
-        ## - BEFORE running vagrant up, run 
-        ##       $ vagrant plugin install vagrant-reload
+        ## - built on ruby rbenv, use those commands to switch ruby versions
         ##
+        ## - currently only installs latest ruby and latest rails.
         ##
         ####
 
@@ -186,9 +183,7 @@ Vagrant.configure(2) do |config|
         args_group = "vagrant"
 
         # call rails provisioner - ruby installation requires a reboot, so uncomment all three of these lines
-        config.vm.provision :shell, privileged: false, path: "#{scripts_url}/rails", args: [ args_rails_version, args_ruby_version, args_package_list, args_user, args_group ]
-        # config.vm.provision :reload
-        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/rails_after", args: [ args_rails_version, args_ruby_version, args_package_list, args_user, args_group ]
+        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/rails", args: [ args_rails_version, args_ruby_version, args_package_list, args_user, args_group ]
 
 
         ####

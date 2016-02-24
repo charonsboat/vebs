@@ -30,9 +30,9 @@ source ~/.bashrc
 
 
 git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
-sudo -H -u vagrant bash -i -c 'rbenv install' '#{args_ruby_version}' > /dev/null
+sudo -H -u vagrant bash -i -c 'rbenv install 2.3.0' > /dev/null
 sudo -H -u vagrant bash -i -c 'rbenv rehash' > /dev/null
-sudo -H -u vagrant bash -i -c 'rbenv global' '#{args_ruby_version}' > /dev/null
+sudo -H -u vagrant bash -i -c 'rbenv global 2.3.0' > /dev/null
 sudo -H -u vagrant bash -i -c 'gem install bundler --no-ri --no-rdoc' > /dev/null
 sudo -H -u vagrant bash -i -c 'gem install rails' > /dev/null
 sudo -H -u vagrant bash -i -c 'rbenv rehash' > /dev/null
@@ -43,5 +43,4 @@ sudo add-apt-repository ppa:chris-lea/node.js -y >  /dev/null
 sudo apt-get -qq update > /dev/null
 sudo apt-get -qq install nodejs > /dev/null
 
-cd /vagrant
 
