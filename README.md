@@ -9,7 +9,7 @@ To get started, all you need to do is pull down a copy of this project's Vagrant
 
 ```bash
 # wget
-wget https://raw.githubusercontent.com/drmyersii/vagrant-env-basher/master/Vagrantfile -O Vagrantfile
+wget https://bitly.com/drmyersii-vagrantfile -O Vagrantfile
 ```
 
 Now, you can uncomment the packages you need and launch Vagrant:
