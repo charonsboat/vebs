@@ -139,6 +139,20 @@ Vagrant.configure(2) do |config|
 
 
         ####
+        ## node
+        ####
+
+        # @param: version of node to install (e.g. 4.2.1). defaults to 'node' for the latest stable version
+        args_node_version = "node"
+
+        # @param: global node packages to install
+        args_node_packages = "npm pm2 gulp"
+
+        # call node provisioner
+        config.vm.provision :shell, privileged: false, path: "#{scripts_url}/node", args: [ args_node_version, args_node_packages ]
+
+
+        ####
         ## ruby
         ####
 
