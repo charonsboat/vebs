@@ -4,7 +4,7 @@
 # @param: version of php to install (e.g. 5.6)
 args_php_version=${1}
 
-# @param: list of php packages to install
+# @param: (optional) list of php packages to install
 args_package_list=${2}
 
 # @param: (optional) user to run php-fpm as, note: if left blank, user will be left as default
