@@ -11,6 +11,9 @@ args_node_packages=${2}
 # suppress prompts
 export DEBIAN_FRONTEND=noninteractive
 
+# specify correct sourcing file
+export PROFILE=~/.profile
+
 # download and install nvm
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.0/install.sh | bash
 
