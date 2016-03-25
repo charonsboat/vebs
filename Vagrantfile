@@ -116,6 +116,17 @@ Vagrant.configure(2) do |config|
 
 
         ####
+        ## composer
+        ####
+
+        # @param: (optional) location to run `composer install`
+        args_composer_install_dir = ""
+
+        # call composer provisioner
+        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/composer", args: [ args_composer_install_dir ]
+
+
+        ####
         ## nginx
         ####
 
@@ -172,15 +183,4 @@ Vagrant.configure(2) do |config|
 
         # call ruby provisioner
         # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/ruby", args: [ args_ruby_version, args_ruby_user, args_ruby_group ]
-
-
-        ####
-        ## composer
-        ####
-
-        # @param: (optional) location to run `composer install`
-        args_composer_install_dir = ""
-
-        # call composer provisioner
-        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/composer", args: [ args_composer_install_dir ]
 end
