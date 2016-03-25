@@ -111,8 +111,11 @@ Vagrant.configure(2) do |config|
         # @param: (optional) group to run php-fpm as, note: if left blank, group will be left as default
         args_php_group = "vagrant"
 
+        # @param: (optional) owner to run php-fpm as, note: if left blank, owner will be left as default
+        args_php_owner = "vagrant"
+
         # call php provisioner
-        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/php", args: [ args_php_version, args_php_package_list, args_php_user, args_php_group ]
+        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/php", args: [ args_php_version, args_php_package_list, args_php_user, args_php_group, args_php_owner ]
 
 
         ####
