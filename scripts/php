@@ -13,6 +13,9 @@ args_user=${3}
 # @param: (optional) group to run php-fpm as, note: if left blank, group will be left as default
 args_group=${4}
 
+# @param: (optional) owner to run php-fpm as, note: if left blank, owner will be left as default
+args_owner=${5}
+
 
 # suppress prompts
 export DEBIAN_FRONTEND=noninteractive
@@ -55,6 +58,14 @@ case ${args_php_version} in
             # service needs to be restarted after changing configuration
             sudo service php5-fpm restart
         fi
+
+        # if an owner is specified, overwrite the default owner
+        if [ ! -z "${args_owner}" ]; then
+            sudo sed -i "s/owner = www-data/owner = ${args_owner}/g" /etc/php5/fpm/pool.d/www.conf > /dev/null
+
+            # service needs to be restarted after changing configuration
+            sudo service php5-fpm restart
+        fi
         ;;
     "5.6")
         # add ppa for 5.6 since it will be a lot faster than using phpbrew
@@ -88,6 +99,14 @@ case ${args_php_version} in
         # if a group is specified, overwrite the default group
         if [ ! -z "${args_group}" ]; then
             sudo sed -i "s/group = www-data/group = ${args_group}/g" /etc/php5/fpm/pool.d/www.conf > /dev/null
+
+            # service needs to be restarted after changing configuration
+            sudo service php5-fpm restart
+        fi
+
+        # if an owner is specified, overwrite the default owner
+        if [ ! -z "${args_owner}" ]; then
+            sudo sed -i "s/owner = www-data/owner = ${args_owner}/g" /etc/php5/fpm/pool.d/www.conf > /dev/null
 
             # service needs to be restarted after changing configuration
             sudo service php5-fpm restart
