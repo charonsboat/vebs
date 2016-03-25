@@ -1,6 +1,6 @@
 # vagrant-env-basher
 
-Reusable Bash provisioning scripts for Vagrant (or other) environments.
+Reusable Bash provisioning scripts for Vagrant (or Ubuntu 14.04) environments.
 
 
 ## usage
