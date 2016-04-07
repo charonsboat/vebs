@@ -21,6 +21,12 @@ vagrant up
 
 That's it! Enjoy!
 
+#### examples
+
+How to quickly set up a LEMP stack
+
+[![How to quickly set up a LEMP stack - screencast](https://j.gifs.com/gJX6KG.gif)](https://youtu.be/COVTyYF1Ang)
+
 
 ## development
 
