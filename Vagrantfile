@@ -201,10 +201,10 @@ Vagrant.configure(2) do |config|
         args_ruby_version = "2.3.0"
 
         # @param: list of ruby packages to install. see script for list of packages already specified for install.
-        args_package_list = ""
+        args_ruby_package_list = ""
 
         # call ruby provisioner
-        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/ruby", args: [ args_ruby_version, args_package_list ]
+        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/ruby", args: [ args_ruby_version, args_ruby_package_list ]
 
 
         ####
