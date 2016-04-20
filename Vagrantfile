@@ -96,10 +96,10 @@ Vagrant.configure(2) do |config|
         ####
 
         # @param: version of postgresql to install. leave blank to use the latest version
-        args_pg_version = ""
+        args_postgresql_version = ""
 
         # call postgresql provisioner
-        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/rails", args: [ args_pg_version ]
+        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/postgresql", args: [ args_postgresql_version ]
 
 
         ####
