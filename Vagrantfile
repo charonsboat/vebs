@@ -225,8 +225,8 @@ Vagrant.configure(2) do |config|
         args_rails_version = "4.2.5"
 
         # @param: list of rails packages to install. see script for list of packages already specified for install.
-        args_package_list = ""
+        args_rails_package_list = ""
 
-        # call rails provisioner - ruby installation requires a reboot, so uncomment all three of these lines
-        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/rails", args: [ args_ruby_version, args_rails_version, args_package_list ]
+        # call rails provisioner
+        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/rails", args: [ args_ruby_version, args_rails_version, args_rails_package_list ]
 end
