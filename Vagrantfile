@@ -143,15 +143,18 @@ Vagrant.configure(2) do |config|
         ## ruby
         ## 
         ## - installs only ruby. to install ruby on rails use the rails script below.
-        ## - installs using rbenv
         ##
+        ## - installs using rbenv
         ####
 
         # @param: version of ruby to install. rbenv requires the exact version number, and a list of all support versions is available with the command "rbenv install -l"
         args_ruby_version = "2.3.0"
 
+        # @param: list of ruby packages to install. see script for list of packages already specified for install.
+        args_package_list = ""
+
         # call ruby provisioner
-        config.vm.provision :shell, privileged: false, path: "#{scripts_url}/ruby", args: [ args_ruby_version ]
+        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/ruby", args: [ args_ruby_version, args_package_list ]
         
         ####
         ## rails
@@ -173,14 +176,8 @@ Vagrant.configure(2) do |config|
         # @param: version of rails to install (e.g. 4.2.5)
         args_rails_version = "4.2.5"
 
-        # @param: list of rails packages to install
+        # @param: list of rails packages to install. see script for list of packages already specified for install.
         args_package_list = ""
-
-        # @param: (optional) user to run rails as, note: if left blank, user will be left as default
-        args_user = "vagrant"
-
-        # @param: (optional) group to run rails as, note: if left blank, group will be left as default
-        args_group = "vagrant"
 
         # call rails provisioner - ruby installation requires a reboot, so uncomment all three of these lines
         # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/rails", args: [ args_ruby_version, args_rails_version, args_package_list, args_user, args_group ]
