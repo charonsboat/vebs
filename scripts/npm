@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+
+# @param: (optional) location to run `npm install`
+args_install_dir=${1}
+
+
+# suppress prompts
+export DEBIAN_FRONTEND=noninteractive
+
+# NPM is automatically installed by Node,
+# so we don't have to handle that here
+
+# if requested, run npm install in the specified directory
+if [ ! -z "${args_install_dir}" ]; then
+    cd ${args_install_dir} && npm install
+fi

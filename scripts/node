@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+
+# @param: version of node to install
+args_node_version=${1}
+
+# @param: global node packages to install
+args_node_packages=${2}
+
+
+# suppress prompts
+export DEBIAN_FRONTEND=noninteractive
+
+# specify correct sourcing file
+export PROFILE=~/.profile
+
+# download and install nvm
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.0/install.sh | bash
+
+# make sure nvm binary is accessible during this session
+source ~/.nvm/nvm.sh
+
+# install specified version of node
+nvm install ${args_node_version}
+
+# set the specifed version of node as the default version to use
+nvm alias default ${args_node_version}
+
+# make sure to use the specified version of node for this session
+nvm use ${args_node_version}
+
+# if a string list of packages is passed in, install those packages
+if [ ! -z "${args_node_packages}" ]; then
+    npm install -g ${args_node_packages} > /dev/null
+fi

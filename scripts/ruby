@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# @param: version of ruby to install (e.g. 2.3) 
+# @param: version of ruby to install (e.g. 2.3)
 args_ruby_version=${1}
 
 # @param: additional packages
@@ -11,7 +11,7 @@ export DEBIAN_FRONTEND=noninteractive
 
 # install dependencies necessary for ruby installation
 sudo apt-get -qq install software-properties-common libssl-dev libreadline-dev zlib1g-dev > /dev/null
-  
+
 # if a string list of packages is passed in, install those packages
 if [ ! -z "${args_package_list}" ]; then
     sudo apt-get install -qq ${args_package_list} > /dev/null

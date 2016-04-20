@@ -1,6 +1,6 @@
 # vagrant-env-basher
 
-Reusable Bash provisioning scripts for Vagrant (or other) environments.
+Reusable Bash provisioning scripts for Vagrant (or Ubuntu 14.04) environments.
 
 
 ## usage
@@ -9,7 +9,7 @@ To get started, all you need to do is pull down a copy of this project's Vagrant
 
 ```bash
 # wget
-wget https://raw.githubusercontent.com/drmyersii/vagrant-env-basher/master/Vagrantfile -O Vagrantfile
+wget https://bitly.com/drmyersii-vagrantfile -O Vagrantfile
 ```
 
 Now, you can uncomment the packages you need and launch Vagrant:
@@ -20,6 +20,12 @@ vagrant up
 ```
 
 That's it! Enjoy!
+
+#### examples
+
+How to quickly set up a LEMP stack
+
+[![How to quickly set up a LEMP stack - screencast](https://j.gifs.com/gJX6KG.gif)](https://youtu.be/COVTyYF1Ang)
 
 
 ## development

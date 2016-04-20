@@ -59,18 +59,18 @@ Vagrant.configure(2) do |config|
     ##
     ## Provisioning Configuration
     ##
-    ## - Comment the Unnecessary scripts
     ## - Uncomment the Necessary scripts
     ##
     ######
 
         ####
-        ## base server configuration   
+        ## base server configuration
         ####
 
         # call base provisioner
         config.vm.provision :shell, privileged: false, path: "#{scripts_url}/base"
-        
+
+
         ####
         ## mysql
         ####
@@ -92,6 +92,17 @@ Vagrant.configure(2) do |config|
 
 
         ####
+        ## postgresql
+        ####
+
+        # @param: version of postgresql to install. leave blank to use the latest version
+        args_pg_version = ""
+
+        # call postgresql provisioner
+        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/rails", args: [ args_pg_version ]
+
+
+        ####
         ## php
         ##
         ## - Specify any version of php >= 5.3. I recommend using 5.5 or 5.6
@@ -103,8 +114,8 @@ Vagrant.configure(2) do |config|
         # @param: version of php to install
         args_php_version = "5.6"
 
-        # @param: list of php packages to install, note: if using PhpBrew, make sure you use the available variants. E.g. "+default +fpm +gd". For more info, check the cookbook: https://github.com/phpbrew/phpbrew/wiki/Cookbook
-        args_php_package_list = "php5-mcrypt php5-fpm"
+        # @param: (optional) list of php packages to install, note: if using PhpBrew, make sure you use the available variants. E.g. "+default +fpm +gd". For more info, check the cookbook: https://github.com/phpbrew/phpbrew/wiki/Cookbook
+        args_php_package_list = "php5-mcrypt php5-fpm php5-mysql"
 
         # @param: (optional) user to run php-fpm as, note: if left blank, user will be left as default
         args_php_user = "vagrant"
@@ -112,8 +123,22 @@ Vagrant.configure(2) do |config|
         # @param: (optional) group to run php-fpm as, note: if left blank, group will be left as default
         args_php_group = "vagrant"
 
+        # @param: (optional) owner to run php-fpm as, note: if left blank, owner will be left as default
+        args_php_owner = "vagrant"
+
         # call php provisioner
-        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/php", args: [ args_php_version, args_php_package_list, args_php_user, args_php_group ]
+        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/php", args: [ args_php_version, args_php_package_list, args_php_user, args_php_group, args_php_owner ]
+
+
+        ####
+        ## composer
+        ####
+
+        # @param: (optional) location to run `composer install`
+        args_composer_install_dir = ""
+
+        # call composer provisioner
+        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/composer", args: [ args_composer_install_dir ]
 
 
         ####
@@ -136,14 +161,39 @@ Vagrant.configure(2) do |config|
         args_nginx_group = "vagrant"
 
         # call nginx provisioner
-        #config.vm.provision :shell, privileged: false, path: "#{scripts_url}/nginx", args: [ args_nginx_document_root, args_nginx_hostname, args_nginx_ip_address, args_nginx_user, args_nginx_group ]
+        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/nginx", args: [ args_nginx_document_root, args_nginx_hostname, args_nginx_ip_address, args_nginx_user, args_nginx_group ]
+
+
+        ####
+        ## node
+        ####
+
+        # @param: version of node to install (e.g. 4.2.1). defaults to 'node' for the latest stable version
+        args_node_version = "node"
+
+        # @param: global node packages to install
+        args_node_packages = "npm pm2 gulp"
+
+        # call node provisioner
+        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/node", args: [ args_node_version, args_node_packages ]
+
+
+        ####
+        ## npm
+        ####
+
+        # @param: (optional) location to run `npm install`
+        args_npm_install_dir = "/vagrant"
+
+        # call npm provisioner
+        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/npm", args: [ args_npm_install_dir ]
 
 
         ####
         ## ruby
-        ## 
-        ## - installs only ruby. to install ruby on rails use the rails script below.
         ##
+        ## - installs only ruby. to install ruby on rails use the rails script
+        ##   below.
         ## - installs using rbenv
         ####
 
@@ -155,21 +205,19 @@ Vagrant.configure(2) do |config|
 
         # call ruby provisioner
         # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/ruby", args: [ args_ruby_version, args_package_list ]
-        
+
+
         ####
         ## rails
-        ## 
+        ##
         ## - built on ruby rbenv, use those commands to switch ruby versions
-        ##
         ## - currently only installs latest ruby and latest rails.
-        ## 
         ## - newer rails is build on newer ruby versions:
-        ##   rails 5 => ruby 2.2.2
-        ##   rails 4 => ruby 1.9.3
+        ##   rails 5   => ruby 2.2.2
+        ##   rails 4   => ruby 1.9.3
         ##   rails 3.2 => ruby 1.8.7
-        ##
         ####
-        
+
         # @param: version of ruby to install (e.g. 2.3.0)
         args_ruby_version = "2.2.2"
 
@@ -180,29 +228,5 @@ Vagrant.configure(2) do |config|
         args_package_list = ""
 
         # call rails provisioner - ruby installation requires a reboot, so uncomment all three of these lines
-        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/rails", args: [ args_ruby_version, args_rails_version, args_package_list, args_user, args_group ]
-        
-
-        ####
-        ## PostgreSQL
-        ## 
-        ## - rails by default uses sqlite, which doesn't work with Heroku.
-        ##
-        ####
-
-        # @param: version of postgresql to install. leave blank to use the latest version
-        args_pg_version = ""
-        
-        # call postgresql provisioner
-        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/rails", args: [ args_pg_version ] 
-
-        ####
-        ## composer
-        ####
-
-        # @param: (optional) location to run `composer install`
-        args_composer_install_dir = ""
-
-        # call composer provisioner
-        #config.vm.provision :shell, privileged: false, path: "#{scripts_url}/composer", args: [ args_composer_install_dir ]
+        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/rails", args: [ args_ruby_version, args_rails_version, args_package_list ]
 end
