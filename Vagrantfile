@@ -143,22 +143,15 @@ Vagrant.configure(2) do |config|
         ## ruby
         ## 
         ## - installs only ruby. to install ruby on rails use the rails script below.
+        ## - installs using rbenv
         ##
         ####
 
-        # @param: version of ruby to install
-        # ruby versions 2.3, 2.2, 2.1, 2.0, 1.9.7 and 1.8.7 install from a ppa and are much faster than building ruby with rbenv or rvm
-        # if your desired version falls in this range, do not include patch number (eg 2.3.0); doing so will conflict with the names of the packages in the ppa
-        args_ruby_version = "2.3"
-
-        # @param: (optional) user to run ruby as, note: if left blank, user will be left as default
-        args_ruby_user = "vagrant"
-
-        # @param: (optional) group to run ruby as, note: if left blank, group will be left as default
-        args_ruby_group = "vagrant"
+        # @param: version of ruby to install. rbenv requires the exact version number, and a list of all support versions is available with the command "rbenv install -l"
+        args_ruby_version = "2.3.0"
 
         # call ruby provisioner
-        config.vm.provision :shell, privileged: false, path: "#{scripts_url}/ruby", args: [ args_ruby_version, args_ruby_user, args_ruby_group ]
+        config.vm.provision :shell, privileged: false, path: "#{scripts_url}/ruby", args: [ args_ruby_version ]
         
         ####
         ## rails

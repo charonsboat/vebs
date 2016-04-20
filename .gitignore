@@ -1,4 +1,5 @@
 # Directories to Ignore; ignores any local vagrant machines created for testing
 .vagrant
+test
 
 # Files to Ignore
