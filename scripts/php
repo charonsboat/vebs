@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+va#!/usr/bin/env bash
 
 
 # @param: version of php to install (e.g. 5.6)

@@ -38,7 +38,7 @@ Vagrant.configure(2) do |config|
     config.vm.box = "ubuntu/trusty64"
 
     # set up network configuration
-    config.vm.network :forwarded_port, guest: 80,  host: 10080
+    config.vm.network :forwarded_port, guest: 3000,  host: 3000
     config.vm.network :forwarded_port, guest: 443, host: 10443
 
     ####
@@ -65,12 +65,12 @@ Vagrant.configure(2) do |config|
     ######
 
         ####
-        ## base server configuration
+        ## base server configuration   
         ####
 
         # call base provisioner
-        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/base"
-
+        config.vm.provision :shell, privileged: false, path: "#{scripts_url}/base"
+        
         ####
         ## mysql
         ####
@@ -88,7 +88,7 @@ Vagrant.configure(2) do |config|
         args_mysql_db_host = "localhost"
 
         # call mysql provisioner
-        #config.vm.provision :shell, privileged: false, path: "#{scripts_url}/mysql", args: [ args_mysql_db_name, args_mysql_db_user, args_mysql_db_password, args_mysql_db_host ]
+        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/mysql", args: [ args_mysql_db_name, args_mysql_db_user, args_mysql_db_password, args_mysql_db_host ]
 
 
         ####
@@ -147,16 +147,18 @@ Vagrant.configure(2) do |config|
         ####
 
         # @param: version of ruby to install
+        # ruby versions 2.3, 2.2, 2.1, 2.0, 1.9.7 and 1.8.7 install from a ppa and are much faster than building ruby with rbenv or rvm
+        # if your desired version falls in this range, do not include patch number (eg 2.3.0); doing so will conflict with the names of the packages in the ppa
         args_ruby_version = "2.3"
 
         # @param: (optional) user to run ruby as, note: if left blank, user will be left as default
-        args_ruby_user = ""
+        args_ruby_user = "vagrant"
 
         # @param: (optional) group to run ruby as, note: if left blank, group will be left as default
-        args_ruby_group = ""
+        args_ruby_group = "vagrant"
 
         # call ruby provisioner
-        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/ruby", args: [ args_ruby_version, args_ruby_user, args_ruby_group ]
+        config.vm.provision :shell, privileged: false, path: "#{scripts_url}/ruby", args: [ args_ruby_version, args_ruby_user, args_ruby_group ]
         
         ####
         ## rails
@@ -164,11 +166,16 @@ Vagrant.configure(2) do |config|
         ## - built on ruby rbenv, use those commands to switch ruby versions
         ##
         ## - currently only installs latest ruby and latest rails.
+        ## 
+        ## - newer rails is build on newer ruby versions:
+        ##   rails 5 => ruby 2.2.2
+        ##   rails 4 => ruby 1.9.3
+        ##   rails 3.2 => ruby 1.8.7
         ##
         ####
-
-        # @param: version of ruby to install (e.g. 2.3)
-        args_ruby_version = "2.3"
+        
+        # @param: version of ruby to install (e.g. 2.3.0)
+        args_ruby_version = "2.2.2"
 
         # @param: version of rails to install (e.g. 4.2.5)
         args_rails_version = "4.2.5"
@@ -183,8 +190,21 @@ Vagrant.configure(2) do |config|
         args_group = "vagrant"
 
         # call rails provisioner - ruby installation requires a reboot, so uncomment all three of these lines
-        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/rails", args: [ args_rails_version, args_ruby_version, args_package_list, args_user, args_group ]
+        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/rails", args: [ args_ruby_version, args_rails_version, args_package_list, args_user, args_group ]
+        
 
+        ####
+        ## PostgreSQL
+        ## 
+        ## - rails by default uses sqlite, which doesn't work with Heroku.
+        ##
+        ####
+
+        # @param: version of postgresql to install. leave blank to use the latest version
+        args_pg_version = ""
+        
+        # call postgresql provisioner
+        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/rails", args: [ args_pg_version ] 
 
         ####
         ## composer

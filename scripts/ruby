@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-
-# @param: version of ruby to install (e.g. 2.3)
+# @param: version of ruby to install (e.g. 2.3) 
 args_ruby_version=${1}
 
 # @param: (optional) user to run ruby as, note: if left blank, user will be left as default
@@ -16,24 +15,33 @@ export DEBIAN_FRONTEND=noninteractive
 
 # determine the best installation method based on the desired version of ruby
 case ${args_ruby_version} in
-    "2.3")
+    "2.3" | "2.2" | "2.1" | "2.0" | "1.9.3" | "1.8.7")
 
     # install dependencies necessary for ruby installation
     sudo apt-get -qq install software-properties-common > /dev/null
 
-    # add ppa for ruby 2.3
+    # add ppa for ruby
     sudo apt-add-repository -y ppa:brightbox/ruby-ng > /dev/null
 
     # update repository information
     sudo apt-get -qq update > /dev/null
 
     # install ruby
-    sudo apt-get -qq install ruby2.3 > /dev/null
+    sudo apt-get -qq install ruby$1 > /dev/null
 
     # install dev packages to allow building native extensions
-    sudo apt-get -qq install ruby2.3-dev > /dev/null
+    sudo apt-get -qq install -y ruby$1-dev > /dev/null
+
+    # change gem installation default to not download documentation (also creates .gemrc file)
+    echo "gem: --no-ri --no-ri" >> ~/.gemrc
+
+    # changes ownership of directories ruby and bundler will use to install gems
+    change vagrant to group root and change permissions for these two files
+    sudo mkdir ~/var/lib/gems
+    sudo chown -R $2:$3 ~/var/lib/gems
+    sudo chown -R $2:$3 ~/usr/local
 
     # install bundler
-    # sudo gem2.3 install bundler > /dev/null
+    gem install bundler --no-verbose > /dev/null
 
 esac
