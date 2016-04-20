@@ -12,7 +12,7 @@
 # fork it and change the following to reflect your own copy
 gh_user   = "drmyersii"
 gh_repo   = "vagrant-env-basher"
-gh_branch = "script/rails" # if you want to ensure consistency, use a specific tag (e.g. v0.1.0)
+gh_branch = "master" # if you want to ensure consistency, use a specific tag (e.g. v0.1.0)
 gh_url    = "https://raw.githubusercontent.com/#{gh_user}/#{gh_repo}/#{gh_branch}"
 
 # path to provisioning scripts
