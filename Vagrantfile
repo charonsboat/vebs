@@ -197,36 +197,12 @@ Vagrant.configure(2) do |config|
         ## - installs using rbenv
         ####
 
-        # @param: version of ruby to install. rbenv requires the exact version number, and a list of all support versions is available with the command "rbenv install -l"
-        args_ruby_version = "2.3.0"
+        # @param: version of ruby to install (e.g. 2.3.0). defaults to 'ruby' for the latest stable version
+        args_ruby_version = "ruby"
 
-        # @param: list of ruby packages to install. see script for list of packages already specified for install.
-        args_ruby_package_list = ""
+        # @param: (optional) list of ruby packages to install. the '--no-rdoc' and '--no-ri' flags disable documentation generation to help speed up the install process for gems.
+        args_ruby_package_list = "--no-rdoc --no-ri bundler rails"
 
         # call ruby provisioner
         # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/ruby", args: [ args_ruby_version, args_ruby_package_list ]
-
-
-        ####
-        ## rails
-        ##
-        ## - built on ruby rbenv, use those commands to switch ruby versions
-        ## - currently only installs latest ruby and latest rails.
-        ## - newer rails is build on newer ruby versions:
-        ##   rails 5   => ruby 2.2.2
-        ##   rails 4   => ruby 1.9.3
-        ##   rails 3.2 => ruby 1.8.7
-        ####
-
-        # @param: version of ruby to install (e.g. 2.3.0)
-        args_ruby_version = "2.2.2"
-
-        # @param: version of rails to install (e.g. 4.2.5)
-        args_rails_version = "4.2.5"
-
-        # @param: list of rails packages to install. see script for list of packages already specified for install.
-        args_rails_package_list = ""
-
-        # call rails provisioner
-        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/rails", args: [ args_ruby_version, args_rails_version, args_rails_package_list ]
 end
