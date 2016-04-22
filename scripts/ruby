@@ -1,33 +1,38 @@
 #!/usr/bin/env bash
 
+
 # @param: version of ruby to install (e.g. 2.3)
 args_ruby_version=${1}
 
 # @param: additional packages
-args_package_list=${2}
+args_ruby_package_list=${2}
+
 
 # suppress prompts
 export DEBIAN_FRONTEND=noninteractive
 
-# install dependencies necessary for ruby installation
-sudo apt-get -qq install software-properties-common libssl-dev libreadline-dev zlib1g-dev > /dev/null
+# - Start installation from https://rvm.io/rvm/security
 
-# if a string list of packages is passed in, install those packages
-if [ ! -z "${args_package_list}" ]; then
-    sudo apt-get install -qq ${args_package_list} > /dev/null
-fi
+# Install mpapis public key (might need `gpg2` and or `sudo`)
+gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
 
-# clone rbenv, ruby version manager, source to .bashrc
-git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
-echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
-echo 'eval "$(rbenv init -)"'               >> ~/.bashrc
-source ~/.bashrc
+# Download the installer
+curl -O https://raw.githubusercontent.com/rvm/rvm/master/binscripts/rvm-installer
+curl -O https://raw.githubusercontent.com/rvm/rvm/master/binscripts/rvm-installer.asc
 
-# clone ruby-build, which will build ruby and set global version
-git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
-sudo -H -u vagrant bash -i -c "rbenv install -v $1" > /dev/null
-sudo -H -u vagrant bash -i -c "rbenv rehash" > /dev/null
-sudo -H -u vagrant bash -i -c "rbenv global $1" > /dev/null
+# Verify the installer signature (might need `gpg2`), and if it validates...
+gpg --verify rvm-installer.asc &&
 
-# install bundler, which will manage gem dependencies for your ruby versions
-sudo -H -u vagrant bash -i -c "gem install bundler --no-ri --no-rdoc" > /dev/null
+# Run the installer
+bash rvm-installer stable
+
+# - End installation from https://rvm.io/rvm/security
+
+# make sure rvm binary is accessible during this session
+source /home/vagrant/.rvm/scripts/rvm
+
+# install specified version of ruby
+rvm install ${args_ruby_version}
+
+# set the specifed version of ruby as the default version and use it
+rvm --default use ${args_ruby_version}
