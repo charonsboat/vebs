@@ -36,3 +36,8 @@ rvm install ${args_ruby_version}
 
 # set the specifed version of ruby as the default version and use it
 rvm --default use ${args_ruby_version}
+
+# if a string list of packages is passed in, install those packages
+if [ ! -z "${args_ruby_package_list}" ]; then
+    gem install ${args_ruby_package_list} > /dev/null
+fi
