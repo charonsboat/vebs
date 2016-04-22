@@ -8,14 +8,5 @@ args_pg_version=${1}
 # suppress prompts
 export DEBIAN_FRONTEND=noninteractive
 
-# set locale for postgresql
-sudo /usr/sbin/update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
-
-
-# update packages
-sudo apt-get update	
-
-
-sudo apt-get -qq install postgresql postgresql-contrib libpq-dev > /dev/null
-
-https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-ruby-on-rails-application-on-ubuntu-14-04
+# install PostgreSQL
+sudo -E apt-get install -qq postgresql postgresql-contrib > /dev/null
