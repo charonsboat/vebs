@@ -191,10 +191,6 @@ Vagrant.configure(2) do |config|
 
         ####
         ## ruby
-        ##
-        ## - installs only ruby. to install ruby on rails use the rails script
-        ##   below.
-        ## - installs using rbenv
         ####
 
         # @param: version of ruby to install (e.g. 2.3.0). defaults to 'ruby' for the latest stable version
