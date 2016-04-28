@@ -36,7 +36,7 @@ sudo rm /etc/nginx/sites-enabled/default
 sudo rm /etc/nginx/sites-available/default
 
 # nginx server block configuration
-sudo tee "/etc/nginx/sites-available/${args_hostname}.conf" << EOF
+sudo tee "/etc/nginx/sites-available/${args_hostname}.conf" << EOF > /dev/null
 server {
         listen 80;
         listen [::]:80;
