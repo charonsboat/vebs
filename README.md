@@ -34,7 +34,7 @@ To develop/test scripts locally, you simply need to fork the repo and change the
 
 ```bash
 # launch vagrant in DEV mode
-export ENV=DEV && vagrant up
+ENV=DEV vagrant up
 ```
 
 
