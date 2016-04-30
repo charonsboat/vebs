@@ -178,5 +178,13 @@ case ${args_php_version} in
             # service needs to be restarted after changing configuration
             sudo service php5-fpm restart
         fi
+
+        # if an owner is specified, overwrite the default owner
+        if [ ! -z "${args_owner}" ]; then
+            sudo sed -i "s/owner = www-data/owner = ${args_owner}/g" ${HOME}/.phpbrew/php/php-${php_version}/etc/php-fpm.conf > /dev/null
+
+            # service needs to be restarted after changing configuration
+            sudo service php5-fpm restart
+        fi
         ;;
 esac
