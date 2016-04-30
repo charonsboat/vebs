@@ -164,7 +164,7 @@ case ${args_php_version} in
         phpbrew switch ${php_version}
 
         # if a user is specified, overwrite the default user
-        if [ ! -z "${args_user}" ]; then
+        if [ ! -z "${args_user}" ] && [[ ${args_package_list} == *"+fpm"* ]]; then
             sudo sed -i "s/user = www-data/user = ${args_user}/g" ${HOME}/.phpbrew/php/php-${php_version}/etc/php-fpm.conf > /dev/null
 
             # service needs to be restarted after changing configuration
@@ -172,7 +172,7 @@ case ${args_php_version} in
         fi
 
         # if a group is specified, overwrite the default group
-        if [ ! -z "${args_group}" ]; then
+        if [ ! -z "${args_group}" ] && [[ ${args_package_list} == *"+fpm"* ]]; then
             sudo sed -i "s/group = www-data/group = ${args_group}/g" ${HOME}/.phpbrew/php/php-${php_version}/etc/php-fpm.conf > /dev/null
 
             # service needs to be restarted after changing configuration
@@ -180,7 +180,7 @@ case ${args_php_version} in
         fi
 
         # if an owner is specified, overwrite the default owner
-        if [ ! -z "${args_owner}" ]; then
+        if [ ! -z "${args_owner}" ] && [[ ${args_package_list} == *"+fpm"* ]]; then
             sudo sed -i "s/owner = www-data/owner = ${args_owner}/g" ${HOME}/.phpbrew/php/php-${php_version}/etc/php-fpm.conf > /dev/null
 
             # service needs to be restarted after changing configuration
