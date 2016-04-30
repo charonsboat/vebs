@@ -29,14 +29,20 @@ case ${args_php_version} in
         # update repository information
         sudo apt-get update -qq > /dev/null
 
+        # check whether or not apache is already installed before the ppa installs it (useful for determining whether it should stay or be removed)
+        apache_is_installed=$(command -v apache2) > /dev/null
+
         # install php
         sudo apt-get install -qq php5 > /dev/null
 
-        # remove apache since the ppa automatically installs it (this script should be unopinionated)
-        sudo apt-get remove -qq apache2 > /dev/null
+        # only remove apache if it wasn't already installed
+        if [ -z "${apache_is_installed}" ]; then
+            # remove apache since the ppa automatically installs it (this script should be unopinionated)
+            sudo apt-get remove -qq apache2 > /dev/null
 
-        # (auto)remove apache sub-packages
-        sudo apt-get autoremove -qq > /dev/null
+            # (auto)remove apache sub-packages
+            sudo apt-get autoremove -qq > /dev/null
+        fi
 
         # if a string list of packages is passed in, install those packages
         if [ ! -z "${args_package_list}" ]; then
@@ -74,14 +80,20 @@ case ${args_php_version} in
         # update repository information
         sudo apt-get update -qq > /dev/null
 
+        # check whether or not apache is already installed before the ppa installs it (useful for determining whether it should stay or be removed)
+        apache_is_installed=$(command -v apache2) > /dev/null
+
         # install php
         sudo apt-get install -qq php5 > /dev/null
 
-        # remove apache since the ppa automatically installs it (this script should be unopinionated)
-        sudo apt-get remove -qq apache2 > /dev/null
+        # only remove apache if it wasn't already installed
+        if [ -z "${apache_is_installed}" ]; then
+            # remove apache since the ppa automatically installs it (this script should be unopinionated)
+            sudo apt-get remove -qq apache2 > /dev/null
 
-        # (auto)remove apache sub-packages
-        sudo apt-get autoremove -qq > /dev/null
+            # (auto)remove apache sub-packages
+            sudo apt-get autoremove -qq > /dev/null
+        fi
 
         # if a string list of packages is passed in, install those packages
         if [ ! -z "${args_package_list}" ]; then
