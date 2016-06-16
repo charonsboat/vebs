@@ -1,11 +1,17 @@
 #!/usr/bin/env bash
 
 
+# @param: (optional) list of system packages to install
+args_base_packages=${1}
+
+
 # suppress prompts
 export DEBIAN_FRONTEND=noninteractive
 
 # update system package archives
 sudo apt-get update -qq > /dev/null
 
-# install useful packages for development
-sudo apt-get install -qq git > /dev/null
+# if a list of packages is passed in, install those packages
+if [ ! -z "${args_base_packages}" ]; then
+    sudo apt-get install -qq ${args_base_packages} > /dev/null
+fi
