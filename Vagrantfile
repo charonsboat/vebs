@@ -67,8 +67,11 @@ Vagrant.configure(2) do |config|
         ## base server configuration
         ####
 
+        # @param: (optional) list of system packages to install separated by spaces. E.g. "git curl screen"
+        args_base_packages = "git"
+
         # call base provisioner
-        config.vm.provision :shell, privileged: false, path: "#{scripts_url}/base"
+        config.vm.provision :shell, privileged: false, path: "#{scripts_url}/base", args: [ args_base_packages ]
 
 
         ####
