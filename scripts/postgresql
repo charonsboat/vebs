@@ -18,7 +18,7 @@ args_postgresql_db_host=${4}
 export DEBIAN_FRONTEND=noninteractive
 
 # install PostgreSQL
-sudo -E apt-get install -qq postgresql postgresql-contrib > /dev/null
+sudo -E apt-get install -qq postgresql postgresql-contrib libpq-dev > /dev/null
 
 # create database
 sudo -u postgres psql -U postgres postgres -c "create database ${args_postgresql_db_name};" > /dev/null
