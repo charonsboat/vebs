@@ -21,10 +21,16 @@ export DEBIAN_FRONTEND=noninteractive
 sudo -E apt-get install -qq postgresql postgresql-contrib libpq-dev > /dev/null
 
 # create database
-sudo -u postgres psql -U postgres postgres -c "create database ${args_postgresql_db_name};" > /dev/null
+sudo -u postgres psql -U postgres -c "create database ${args_postgresql_db_name};" > /dev/null
 
-# create user
-sudo -u postgres psql -U postgres postgres -c "create user ${args_postgresql_db_user} with password '${args_postgresql_db_pass}';" > /dev/null
+# if the user is the default user, we just need to change the password
+if [[ "${args_postgresql_db_user}" -eq "postgres" ]]; then
+    # change postgres user password
+    sudo -u postgres psql -U postgres -c "alter user postgres with password '${args_postgresql_db_pass}'" > /dev/null
+else
+    # create user
+    sudo -u postgres psql -U postgres -c "create user ${args_postgresql_db_user} with password '${args_postgresql_db_pass}';" > /dev/null
+fi
 
 # create user, and grant all permissions to new DB
-sudo -u postgres psql -U postgres postgres -c "grant all privileges on database ${args_postgresql_db_name} to ${args_postgresql_db_user};" > /dev/null
+sudo -u postgres psql -U postgres -c "grant all privileges on database ${args_postgresql_db_name} to ${args_postgresql_db_user};" > /dev/null
