@@ -98,8 +98,20 @@ Vagrant.configure(2) do |config|
         ## postgresql
         ####
 
+        # @param: database name
+        args_postgresql_db_name = "dev"
+
+        # @param: database user to create
+        args_postgresql_db_user = "dev"
+
+        # @param: database user's password
+        args_postgresql_db_password = "dev"
+
+        # @param: allowed hostname for connection to new database
+        args_postgresql_db_host = "localhost"
+
         # call postgresql provisioner
-        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/postgresql", args: []
+        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/postgresql", args: [ args_postgresql_db_name, args_postgresql_db_user, args_postgresql_db_password, args_postgresql_db_host ]
 
 
         ####
