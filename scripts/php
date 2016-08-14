@@ -4,17 +4,17 @@
 # @param: version of php to install (e.g. 5.6)
 args_php_version=${1}
 
-# @param: (optional) list of php packages to install
-args_package_list=${2}
+# @param: (optional) list of php extensions to install
+args_php_extensions=${2}
 
 # @param: (optional) user to run php-fpm as, note: if left blank, user will be left as default
-args_user=${3}
+args_php_user=${3}
 
 # @param: (optional) group to run php-fpm as, note: if left blank, group will be left as default
-args_group=${4}
+args_php_group=${4}
 
 # @param: (optional) owner to run php-fpm as, note: if left blank, owner will be left as default
-args_owner=${5}
+args_php_owner=${5}
 
 
 # suppress prompts
@@ -22,169 +22,58 @@ export DEBIAN_FRONTEND=noninteractive
 
 # determine the best installation method based on the desired version of php
 case ${args_php_version} in
-    "5.5")
-        # add ppa for 5.5 since it will be a lot faster than using phpbrew
-        sudo add-apt-repository -y ppa:ondrej/php5 > /dev/null
-
-        # update repository information
-        sudo apt-get update -qq > /dev/null
-
-        # check whether or not apache is already installed before the ppa installs it (useful for determining whether it should stay or be removed)
-        apache_is_installed=$(command -v apache2) > /dev/null
-
-        # install php
-        sudo apt-get install -qq php5 > /dev/null
-
-        # only remove apache if it wasn't already installed
-        if [ -z "${apache_is_installed}" ]; then
-            # remove apache since the ppa automatically installs it (this script should be unopinionated)
-            sudo apt-get remove -qq apache2 > /dev/null
-
-            # (auto)remove apache sub-packages
-            sudo apt-get autoremove -qq > /dev/null
-        fi
-
-        # if a string list of packages is passed in, install those packages
-        if [ ! -z "${args_package_list}" ]; then
-            sudo apt-get install -qq ${args_package_list} > /dev/null
-        fi
-
-        # if a user is specified, overwrite the default user
-        if [ ! -z "${args_user}" ] && [[ ${args_package_list} == *"php5-fpm"* ]]; then
-            sudo sed -i "s/user = www-data/user = ${args_user}/g" /etc/php5/fpm/pool.d/www.conf > /dev/null
-
-            # service needs to be restarted after changing configuration
-            sudo service php5-fpm restart
-        fi
-
-        # if a group is specified, overwrite the default group
-        if [ ! -z "${args_group}" ] && [[ ${args_package_list} == *"php5-fpm"* ]]; then
-            sudo sed -i "s/group = www-data/group = ${args_group}/g" /etc/php5/fpm/pool.d/www.conf > /dev/null
-
-            # service needs to be restarted after changing configuration
-            sudo service php5-fpm restart
-        fi
-
-        # if an owner is specified, overwrite the default owner
-        if [ ! -z "${args_owner}" ] && [[ ${args_package_list} == *"php5-fpm"* ]]; then
-            sudo sed -i "s/owner = www-data/owner = ${args_owner}/g" /etc/php5/fpm/pool.d/www.conf > /dev/null
-
-            # service needs to be restarted after changing configuration
-            sudo service php5-fpm restart
-        fi
-        ;;
-    "5.6")
+    "7.0"|"5.6"|"5.5")
         # add ppa for 5.6 since it will be a lot faster than using phpbrew
-        sudo add-apt-repository -y ppa:ondrej/php5-5.6 > /dev/null
+        sudo add-apt-repository -y ppa:ondrej/php > /dev/null
 
         # update repository information
         sudo apt-get update -qq > /dev/null
 
         # check whether or not apache is already installed before the ppa installs it (useful for determining whether it should stay or be removed)
         apache_is_installed=$(command -v apache2) > /dev/null
-
-        # install php
-        sudo apt-get install -qq php5 > /dev/null
-
-        # only remove apache if it wasn't already installed
-        if [ -z "${apache_is_installed}" ]; then
-            # remove apache since the ppa automatically installs it (this script should be unopinionated)
-            sudo apt-get remove -qq apache2 > /dev/null
-
-            # (auto)remove apache sub-packages
-            sudo apt-get autoremove -qq > /dev/null
-        fi
-
-        # if a string list of packages is passed in, install those packages
-        if [ ! -z "${args_package_list}" ]; then
-            sudo apt-get install -qq ${args_package_list} > /dev/null
-        fi
-
-        # if a user is specified, overwrite the default user
-        if [ ! -z "${args_user}" ] && [[ ${args_package_list} == *"php5-fpm"* ]]; then
-            sudo sed -i "s/user = www-data/user = ${args_user}/g" /etc/php5/fpm/pool.d/www.conf > /dev/null
-
-            # service needs to be restarted after changing configuration
-            sudo service php5-fpm restart
-        fi
-
-        # if a group is specified, overwrite the default group
-        if [ ! -z "${args_group}" ] && [[ ${args_package_list} == *"php5-fpm"* ]]; then
-            sudo sed -i "s/group = www-data/group = ${args_group}/g" /etc/php5/fpm/pool.d/www.conf > /dev/null
-
-            # service needs to be restarted after changing configuration
-            sudo service php5-fpm restart
-        fi
-
-        # if an owner is specified, overwrite the default owner
-        if [ ! -z "${args_owner}" ] && [[ ${args_package_list} == *"php5-fpm"* ]]; then
-            sudo sed -i "s/owner = www-data/owner = ${args_owner}/g" /etc/php5/fpm/pool.d/www.conf > /dev/null
-
-            # service needs to be restarted after changing configuration
-            sudo service php5-fpm restart
-        fi
-        ;;
-    *)
-        # install any modern version of php (>= 5.3) with phpbrew
-        # https://github.com/phpbrew/phpbrew
-
-        # make sure dependencies for phpbrew are installed
-        sudo apt-get install -qq php5 php5-dev php-pear autoconf automake curl build-essential libxslt1-dev re2c libxml2 libxml2-dev php5-cli bison libbz2-dev libreadline-dev > /dev/null
-        sudo apt-get install -qq libfreetype6 libfreetype6-dev libpng12-0 libpng12-dev libjpeg-dev libjpeg8-dev libjpeg8  libgd-dev libgd3 libxpm4 libltdl7 libltdl-dev > /dev/null
-        sudo apt-get install -qq libssl-dev openssl > /dev/null
-        sudo apt-get install -qq gettext libgettextpo-dev libgettextpo0 > /dev/null
-        sudo apt-get install -qq libicu-dev > /dev/null
-        sudo apt-get install -qq libmhash-dev libmhash2 > /dev/null
-        sudo apt-get install -qq libmcrypt-dev libmcrypt4 > /dev/null
-
-        # acquire phpbrew
-        curl -L -O https://github.com/phpbrew/phpbrew/raw/master/phpbrew > /dev/null
-        chmod +x phpbrew
-        sudo mv phpbrew /usr/bin/phpbrew
-
-        # init bash script
-        phpbrew init
-
-        # make sure ~/.bashrc exists
-        touch ~/.bashrc
-
-        # update bashrc to use phpbrew
-        echo 'source ~/.phpbrew/bashrc' | tee --append ~/.bashrc
-
-        # since our previously added source will only be loaded in a new shell, source phpbrew now
-        source ~/.phpbrew/bashrc
 
         # install specified version of php
-        phpbrew install ${args_php_version} ${args_package_list} > /dev/null
+        sudo apt-get install -qq "php${args_php_version}" > /dev/null
 
-        # get full version number for phpbrew in case of shorthand (e.g. 5.4 will grab 5.4.45)
-        php_version=$(phpbrew list | grep "php-${args_php_version}" | head -1)
+        # add new apache packages
+        sudo apt-get install -qq "libapache2-mod-php${args_php_version}" > /dev/null
 
-        # make the specified version of php the default
-        phpbrew switch ${php_version}
+        # only remove apache if it wasn't already installed
+        if [ -z "${apache_is_installed}" ]; then
+            # remove apache since the ppa automatically installs it (this script should be unopinionated)
+            sudo apt-get remove -qq apache2 > /dev/null
 
-        # if a user is specified, overwrite the default user
-        if [ ! -z "${args_user}" ] && [[ ${args_package_list} == *"+fpm"* ]]; then
-            sudo sed -i "s/user = www-data/user = ${args_user}/g" ${HOME}/.phpbrew/php/php-${php_version}/etc/php-fpm.conf > /dev/null
-
-            # service needs to be restarted after changing configuration
-            sudo service php5-fpm restart
+            # (auto)remove apache sub-packages
+            sudo apt-get autoremove -qq > /dev/null
         fi
 
-        # if a group is specified, overwrite the default group
-        if [ ! -z "${args_group}" ] && [[ ${args_package_list} == *"+fpm"* ]]; then
-            sudo sed -i "s/group = www-data/group = ${args_group}/g" ${HOME}/.phpbrew/php/php-${php_version}/etc/php-fpm.conf > /dev/null
-
-            # service needs to be restarted after changing configuration
-            sudo service php5-fpm restart
+        # if a string list of packages is passed in, install those packages
+        if [ ! -z "${args_php_extensions}" ]; then
+            sudo apt-get install -qq ${args_php_extensions} > /dev/null
         fi
 
-        # if an owner is specified, overwrite the default owner
-        if [ ! -z "${args_owner}" ] && [[ ${args_package_list} == *"+fpm"* ]]; then
-            sudo sed -i "s/owner = www-data/owner = ${args_owner}/g" ${HOME}/.phpbrew/php/php-${php_version}/etc/php-fpm.conf > /dev/null
+        # check for php-fpm
+        if [[ ${args_php_extensions} == *"php${args_php_version}-fpm"* ]]; then
+            # if a user is specified, overwrite the default user
+            if [ ! -z "${args_php_user}" ]; then
+                sudo sed -i "s/user = www-data/user = ${args_php_user}/g" /etc/php/${args_php_version}/fpm/pool.d/www.conf > /dev/null
+            fi
+
+            # if a group is specified, overwrite the default group
+            if [ ! -z "${args_php_group}" ]; then
+                sudo sed -i "s/group = www-data/group = ${args_php_group}/g" /etc/php/${args_php_version}/fpm/pool.d/www.conf > /dev/null
+            fi
+
+            # if an owner is specified, overwrite the default owner
+            if [ ! -z "${args_php_owner}" ]; then
+                sudo sed -i "s/owner = www-data/owner = ${args_php_owner}/g" /etc/php/${args_php_version}/fpm/pool.d/www.conf > /dev/null
+            fi
+
+            # create symlink for php-fpm socket file (helps with nginx setup)
+            sudo ln -s /run/php/php${args_php_version}-fpm.sock /run/php/php-fpm.sock
 
             # service needs to be restarted after changing configuration
-            sudo service php5-fpm restart
+            sudo service php${args_php_version}-fpm restart
         fi
         ;;
 esac
