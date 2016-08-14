@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+
+# @param: version of go to install
+args_go_version=${1}
+
+
+# suppress prompts
+export DEBIAN_FRONTEND=noninteractive
+
+# download go
+wget https://storage.googleapis.com/golang/go${args_go_version}.linux-amd64.tar.gz -O ./go.tar.gz > /dev/null
+
+# unpack go
+tar -xvf ./go.tar.gz > /dev/null
+
+# move the binaries
+sudo mv go /usr/local
+
+# make sure we add go to the PATH
+echo 'export PATH=$PATH:/usr/local/go/bin' | tee --append ~/.profile
