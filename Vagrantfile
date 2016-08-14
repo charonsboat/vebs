@@ -104,18 +104,13 @@ Vagrant.configure(2) do |config|
 
         ####
         ## php
-        ##
-        ## - Specify any version of php >= 5.3. I recommend using 5.5 or 5.6
-        ##   since they don't need phpbrew to install
-        ## - If you are comfortable with phpbrew, you can also specify semantic
-        ##   versions (e.g. 5.4.40)
         ####
 
-        # @param: version of php to install
+        # @param: version of php to install (must be 5.5, 5.6, or 7.0)
         args_php_version = "5.6"
 
-        # @param: (optional) list of php packages to install, note: if using PhpBrew, make sure you use the available variants. E.g. "+default +fpm +gd". For more info, check the cookbook: https://github.com/phpbrew/phpbrew/wiki/Cookbook
-        args_php_package_list = "php5-mcrypt php5-fpm php5-mysql"
+        # @param: (optional) list of php extensions to install, note: due to the new PPA, you will need to specify the version of php in the extension names as well
+        args_php_extensions = "php5.6-cli php5.6-mcrypt php5.6-fpm php5.6-mysql"
 
         # @param: (optional) user to run php-fpm as, note: if left blank, user will be left as default
         args_php_user = "vagrant"
@@ -127,7 +122,7 @@ Vagrant.configure(2) do |config|
         args_php_owner = "vagrant"
 
         # call php provisioner
-        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/php", args: [ args_php_version, args_php_package_list, args_php_user, args_php_group, args_php_owner ]
+        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/php", args: [ args_php_version, args_php_extensions, args_php_user, args_php_group, args_php_owner ]
 
 
         ####
