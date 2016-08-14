@@ -201,4 +201,15 @@ Vagrant.configure(2) do |config|
 
         # call ruby provisioner
         # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/ruby", args: [ args_ruby_version, args_ruby_package_list ]
+
+
+        ####
+        ## go
+        ####
+
+        # @param: version of go to install (e.g. 1.6).
+        args_go_version = "1.6"
+
+        # call go provisioner
+        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/go", args: [ args_go_version ]
 end
