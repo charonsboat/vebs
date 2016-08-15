@@ -12,7 +12,7 @@
 # fork it and change the following to reflect your own copy
 gh_user   = "drmyersii"
 gh_repo   = "vagrant-env-basher"
-gh_branch = "master" # if you want to ensure consistency, use a specific tag (e.g. v0.1.0)
+gh_branch = "v0.10.0" # the latest tag is specified to ensure consistency (you may also use "master", but future changes may cause errors in your environment)
 gh_url    = "https://raw.githubusercontent.com/#{gh_user}/#{gh_repo}/#{gh_branch}"
 
 # path to provisioning scripts
