@@ -30,7 +30,7 @@ end
 ##
 ######
 
-max_memory = 1024
+max_memory = 1536
 
 Vagrant.configure(2) do |config|
 
