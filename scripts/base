@@ -4,14 +4,29 @@
 # @param: (optional) list of system packages to install
 args_base_packages=${1}
 
+# @param: (optional) locale to set for LC_ALL global
+args_base_locale=${2}
+
 
 # suppress prompts
 export DEBIAN_FRONTEND=noninteractive
 
+# check for locale
+if [ ! -z "${args_base_locale}" ]; then
+    # generate the specified locale
+    locale-gen ${args_base_locale}
+
+    # set the locale automatically upon login
+    echo "export LC_ALL=${args_base_locale}" | tee --append ~/.profile
+
+    # set the locale for our current session
+    source ~/.profile
+fi
+
 # update system package archives
-sudo apt-get update -qq > /dev/null
+sudo -E apt-get update -qq > /dev/null
 
 # if a list of packages is passed in, install those packages
 if [ ! -z "${args_base_packages}" ]; then
-    sudo apt-get install -qq ${args_base_packages} > /dev/null
+    sudo -E apt-get install -qq ${args_base_packages} > /dev/null
 fi
