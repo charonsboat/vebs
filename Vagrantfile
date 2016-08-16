@@ -70,8 +70,11 @@ Vagrant.configure(2) do |config|
         # @param: (optional) list of system packages to install separated by spaces. E.g. "git curl screen"
         args_base_packages = "git"
 
+        # @param: (optional) locale to set for LC_ALL global
+        args_base_locale = "en_US.UTF-8"
+
         # call base provisioner
-        config.vm.provision :shell, privileged: false, path: "#{scripts_url}/base", args: [ args_base_packages ]
+        config.vm.provision :shell, privileged: false, path: "#{scripts_url}/base", args: [ args_base_packages, args_base_locale ]
 
 
         ####
