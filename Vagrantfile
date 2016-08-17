@@ -50,10 +50,39 @@ Vagrant.configure(2) do |config|
         ####
         ## VirtualBox
         ####
-        config.vm.provider "virtualbox" do |v, override|
-            v.memory = max_memory
-            v.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/vagrant", "1"]
+
+        config.vm.provider "virtualbox" do |provider, override|
+            provider.memory = max_memory
+            provider.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/vagrant", "1"]
         end
+
+
+        ####
+        ## Digital Ocean
+        ####
+
+        config.vm.provider "digital_ocean" do |provider, override|
+            # you probably don't need to change these
+            override.vm.box = "digital_ocean"
+            override.vm.box_url = "https://github.com/devopsgroup-io/vagrant-digitalocean/raw/master/box/digital_ocean.box"
+
+            # configure the DO droplet here
+            override.ssh.private_key_path = "~/.ssh/id_rsa"
+            provider.token = "set token here"
+            provider.name = "set droplet name here"
+            provider.image = "ubuntu-14-04-x64"
+            provider.region = "nyc3"
+            provider.size = "512mb"
+
+            # optional droplet configuration
+            # override.ssh.username = "set ssh user here"
+            # provider.ssh_key_name = "Vagrant"
+            # provider.setup = true
+            # provider.ipv6 = true
+            # provider.private_networking = false
+            # provider.backups_enabled = false
+        end
+
 
     ####
     ##
