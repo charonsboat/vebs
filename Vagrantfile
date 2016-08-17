@@ -62,14 +62,17 @@ Vagrant.configure(2) do |config|
         ####
 
         config.vm.provider "digital_ocean" do |provider, override|
+            # optionally use rsync to mount shared folder
+            # override.vm.synced_folder ".", "/vagrant", type: "rsync", rsync__exclude: [ ".vagrant", ".git" ]
+
             # you probably don't need to change these
             override.vm.box = "digital_ocean"
             override.vm.box_url = "https://github.com/devopsgroup-io/vagrant-digitalocean/raw/master/box/digital_ocean.box"
 
             # configure the DO droplet here
-            override.ssh.private_key_path = "~/.ssh/id_rsa"
-            provider.token = "set token here"
-            provider.name = "set droplet name here"
+            override.ssh.private_key_path = ENV["DIGITAL_OCEAN_PRIVATE_SSH_KEY"] || "~/.ssh/id_rsa"
+            provider.token = ENV["DIGITAL_OCEAN_ACCESS_TOKEN"] || "use ENV or set access token here"
+            provider.name = ENV["DIGITAL_OCEAN_DROPLET_NAME"] || "use ENV or set droplet name here" # note: provider.name is currently broken in the upstream vagrant-digitalocean plugin. this option may not work.
             provider.image = "ubuntu-14-04-x64"
             provider.region = "nyc3"
             provider.size = "512mb"
