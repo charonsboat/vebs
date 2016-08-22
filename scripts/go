@@ -4,6 +4,9 @@
 # @param: version of go to install
 args_go_version=${1}
 
+# @param: (optional) path to set for $GOPATH
+args_go_gopath=${2}
+
 
 # suppress prompts
 export DEBIAN_FRONTEND=noninteractive
@@ -22,3 +25,12 @@ rm ./go.tar.gz
 
 # make sure we add go to the PATH
 echo 'export PATH=$PATH:/usr/local/go/bin' | tee --append ~/.profile
+
+# if $GOPATH is specified, set it
+if [ ! -z "${args_go_gopath}" ]; then
+    # make sure the directory exists (only use sudo if the normal user can't create it)
+    mkdir -p ${args_go_gopath} || sudo mkdir -p ${args_go_gopath}
+
+    # set $GOPATH
+    echo "export GOPATH=${args_go_gopath}" | tee --append ~/.profile
+fi
