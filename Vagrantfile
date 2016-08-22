@@ -252,6 +252,9 @@ Vagrant.configure(2) do |config|
         # @param: version of go to install (e.g. 1.6).
         args_go_version = "1.6"
 
+        # @param: (optional) path to set for $GOPATH
+        args_go_gopath = "/home/vagrant/go"
+
         # call go provisioner
-        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/go", args: [ args_go_version ]
+        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/go", args: [ args_go_version, args_go_gopath ]
 end
