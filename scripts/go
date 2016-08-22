@@ -11,6 +11,9 @@ args_go_gopath=${2}
 # suppress prompts
 export DEBIAN_FRONTEND=noninteractive
 
+# move out of the home directory to install go
+mkdir -p /tmp/workspace && cd /tmp/workspace
+
 # download go
 wget https://storage.googleapis.com/golang/go${args_go_version}.linux-amd64.tar.gz -O ./go.tar.gz > /dev/null
 
