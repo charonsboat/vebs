@@ -17,5 +17,8 @@ tar -xvf ./go.tar.gz > /dev/null
 # move the binaries
 sudo mv go /usr/local
 
+# clean up install files
+rm ./go.tar.gz
+
 # make sure we add go to the PATH
 echo 'export PATH=$PATH:/usr/local/go/bin' | tee --append ~/.profile
