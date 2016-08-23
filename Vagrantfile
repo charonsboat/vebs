@@ -10,8 +10,8 @@
 
 # if you want to maintain your own version of this project, feel free to
 # fork it and change the following to reflect your own copy
-gh_user   = "drmyersii"
-gh_repo   = "vagrant-env-basher"
+gh_user   = "drm2"
+gh_repo   = "vebs"
 gh_branch = "v0.11.2" # the latest tag is specified to ensure consistency (you may also use "master", but future changes may cause errors in your environment)
 gh_url    = "https://raw.githubusercontent.com/#{gh_user}/#{gh_repo}/#{gh_branch}"
 
