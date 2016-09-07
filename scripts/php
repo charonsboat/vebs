@@ -75,8 +75,14 @@ case ${args_php_version} in
                 sudo sed -i "s/owner = www-data/owner = ${args_php_owner}/g" /etc/php/${args_php_version}/fpm/pool.d/www.conf > /dev/null
             fi
 
-            # create symlink for php-fpm socket file (helps with nginx setup)
-            sudo ln -s /run/php/php${args_php_version}-fpm.sock /run/php/php-fpm.sock
+            # command to symlink php-fpm.sock file (helps with nginx setup)
+            cron_command="sudo ln -s /run/php/php${args_php_version}-fpm.sock /run/php/php-fpm.sock"
+
+            # set up cron to automatically run the symlink command on startup
+            (crontab -l 2>/dev/null; echo "@reboot \`${cron_command}\`") | crontab -
+
+            # run script for this session
+            `${cron_command}`
 
             # service needs to be restarted after changing configuration
             sudo service php${args_php_version}-fpm restart
