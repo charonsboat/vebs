@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+
+# @param: version of rust to install (e.g. 1.11.0)
+args_rust_version=${1}
+
+
+# suppress prompts
+export DEBIAN_FRONTEND=noninteractive
+
+# download rust
+wget https://static.rust-lang.org/dist/rust-${args_rust_version}-x86_64-unknown-linux-gnu.tar.gz -O rust.tar.gz > /dev/null
+
+# unpack rust
+tar -xvf ./rust.tar.gz > /dev/null
+
+# move into the directory, and run the installer
+cd ./rust-${args_rust_version}-x86_64-unknown-linux-gnu && sudo ./install.sh > /dev/null
+
+# move out of the directory, and clean up
+cd ../ && rm -r ./rust-${args_rust_version}-x86_64-unknown-linux-gnu && rm ./rust.tar.gz > /dev/null
