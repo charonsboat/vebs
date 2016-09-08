@@ -257,4 +257,15 @@ Vagrant.configure(2) do |config|
 
         # call go provisioner
         # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/go", args: [ args_go_version, args_go_gopath ]
+
+
+        ####
+        ## rust
+        ####
+
+        # @param: version of rust to install (e.g. 1.11.0).
+        args_rust_version = "1.11.0"
+
+        # call rust provisioner
+        # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/rust", args: [ args_rust_version ]
 end
