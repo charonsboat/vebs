@@ -34,34 +34,30 @@ max_memory = 1536
 
 Vagrant.configure(2) do |config|
 
-    # set the base box
-    config.vm.box = "ubuntu/trusty64"
+    config.vm.define "vebs" do |vebs|
 
-    # set up network configuration
-    config.vm.network :forwarded_port, guest: 80,  host: 10080
-    config.vm.network :forwarded_port, guest: 443, host: 10443
+        # set the base box
+        vebs.vm.box = "ubuntu/trusty64"
 
-    ####
-    ##
-    ## Provider Configuration
-    ##
-    ######
+        # set up network configuration
+        vebs.vm.network :forwarded_port, guest: 80,  host: 10080
+        vebs.vm.network :forwarded_port, guest: 443, host: 10443
+
 
         ####
         ## VirtualBox
         ####
 
-        config.vm.provider "virtualbox" do |provider, override|
+        vebs.vm.provider "virtualbox" do |provider, override|
             provider.memory = max_memory
             provider.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/vagrant", "1"]
         end
-
 
         ####
         ## Digital Ocean
         ####
 
-        config.vm.provider "digital_ocean" do |provider, override|
+        vebs.vm.provider "digital_ocean" do |provider, override|
             # optionally use rsync to mount shared folder
             # override.vm.synced_folder ".", "/vagrant", type: "rsync", rsync__exclude: [ ".vagrant", ".git" ]
 
@@ -72,7 +68,6 @@ Vagrant.configure(2) do |config|
             # configure the DO droplet here
             override.ssh.private_key_path = ENV["DIGITAL_OCEAN_PRIVATE_SSH_KEY"] || "~/.ssh/id_rsa"
             provider.token = ENV["DIGITAL_OCEAN_ACCESS_TOKEN"] || "use ENV or set access token here"
-            provider.name = ENV["DIGITAL_OCEAN_DROPLET_NAME"] || "use ENV or set droplet name here" # note: provider.name is currently broken in the upstream vagrant-digitalocean plugin. this option may not work.
             provider.image = "ubuntu-14-04-x64"
             provider.region = "nyc3"
             provider.size = "512mb"
@@ -87,14 +82,6 @@ Vagrant.configure(2) do |config|
         end
 
 
-    ####
-    ##
-    ## Provisioning Configuration
-    ##
-    ## - Uncomment the Necessary scripts
-    ##
-    ######
-
         ####
         ## base server configuration
         ####
@@ -107,7 +94,6 @@ Vagrant.configure(2) do |config|
 
         # call base provisioner
         config.vm.provision :shell, privileged: false, path: "#{scripts_url}/base", args: [ args_base_packages, args_base_locale ]
-
 
         ####
         ## mysql
@@ -128,7 +114,6 @@ Vagrant.configure(2) do |config|
         # call mysql provisioner
         # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/mysql", args: [ args_mysql_db_name, args_mysql_db_user, args_mysql_db_password, args_mysql_db_host ]
 
-
         ####
         ## postgresql
         ####
@@ -147,7 +132,6 @@ Vagrant.configure(2) do |config|
 
         # call postgresql provisioner
         # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/postgresql", args: [ args_postgresql_db_name, args_postgresql_db_user, args_postgresql_db_password, args_postgresql_db_host ]
-
 
         ####
         ## php
@@ -171,7 +155,6 @@ Vagrant.configure(2) do |config|
         # call php provisioner
         # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/php", args: [ args_php_version, args_php_extensions, args_php_user, args_php_group, args_php_owner ]
 
-
         ####
         ## composer
         ####
@@ -181,7 +164,6 @@ Vagrant.configure(2) do |config|
 
         # call composer provisioner
         # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/composer", args: [ args_composer_install_dir ]
-
 
         ####
         ## nginx
@@ -205,7 +187,6 @@ Vagrant.configure(2) do |config|
         # call nginx provisioner
         # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/nginx", args: [ args_nginx_document_root, args_nginx_hostname, args_nginx_ip_address, args_nginx_user, args_nginx_group ]
 
-
         ####
         ## node
         ####
@@ -219,7 +200,6 @@ Vagrant.configure(2) do |config|
         # call node provisioner
         # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/node", args: [ args_node_version, args_node_packages ]
 
-
         ####
         ## npm
         ####
@@ -229,7 +209,6 @@ Vagrant.configure(2) do |config|
 
         # call npm provisioner
         # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/npm", args: [ args_npm_install_dir ]
-
 
         ####
         ## ruby
@@ -244,7 +223,6 @@ Vagrant.configure(2) do |config|
         # call ruby provisioner
         # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/ruby", args: [ args_ruby_version, args_ruby_package_list ]
 
-
         ####
         ## go
         ####
@@ -258,7 +236,6 @@ Vagrant.configure(2) do |config|
         # call go provisioner
         # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/go", args: [ args_go_version, args_go_gopath ]
 
-
         ####
         ## rust
         ####
@@ -268,4 +245,5 @@ Vagrant.configure(2) do |config|
 
         # call rust provisioner
         # config.vm.provision :shell, privileged: false, path: "#{scripts_url}/rust", args: [ args_rust_version ]
+    end
 end
