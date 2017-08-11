@@ -87,7 +87,7 @@ Vagrant.configure(2) do |config|
         ####
 
         # @param: (optional) list of system packages to install separated by spaces. E.g. "git curl screen"
-        args_base_packages = "git"
+        args_base_packages = "git zip unzip"
 
         # @param: (optional) locale to set for LC_ALL global
         args_base_locale = "en_US.UTF-8"
@@ -141,7 +141,7 @@ Vagrant.configure(2) do |config|
         args_php_version = "5.6"
 
         # @param: (optional) list of php extensions to install, note: due to the new PPA, you will need to specify the version of php in the extension names as well
-        args_php_extensions = "php5.6-cli php5.6-mcrypt php5.6-fpm php5.6-mysql php5.6-mbstring php5.6-xml"
+        args_php_extensions = "php5.6-cli php5.6-mcrypt php5.6-fpm php5.6-mysql php5.6-mbstring php5.6-xml php5.6-zip"
 
         # @param: (optional) user to run php-fpm as, note: if left blank, user will be left as default
         args_php_user = "vagrant"
